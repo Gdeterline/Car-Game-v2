@@ -11,6 +11,8 @@ HAUTEUR = 600
 
 screen = pygame.display.set_mode((LARGEUR, HAUTEUR)) #Afficher l'ecran de jeu
 CIRCUIT = pygame.image.load("./circuit.jpeg")
+
+# Resising image so it fits right
 CIRCUIT = pygame.transform.scale(CIRCUIT, (1000, 600))
 
 
