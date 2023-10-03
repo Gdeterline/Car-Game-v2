@@ -8,3 +8,7 @@ ECRAN = pygame.display.set_mode((LARGEUR, HAUTEUR)) #Afficher l'ecran de jeu
 CIRCUIT = pygame.image.load("circuit.jpeg")
 CAR = pygame.image.load("car.png")
 
+class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "sprite"
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load(os.path("car.png"))
