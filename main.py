@@ -11,10 +11,11 @@ HAUTEUR = 600
 
 screen = pygame.display.set_mode((LARGEUR, HAUTEUR)) #Afficher l'ecran de jeu
 CIRCUIT = pygame.image.load("./circuit.jpeg")
+CAR = pygame.image.load("./car.png")
 
 # Resising image so it fits right
 CIRCUIT = pygame.transform.scale(CIRCUIT, (1000, 600))
-
+CAR = pygame.transform.scale(CAR, (65, 30))
 
 
 # Run until user quits window
@@ -33,6 +34,7 @@ while running:
                 
     # display image on the screen with .blit()
     screen.blit(CIRCUIT, (0, 0))
+    screen.blit(CAR, (0, 0))
     pygame.display.flip()
     
 
