@@ -36,14 +36,6 @@ while running:
 
     # display race track on the screen with .blit()
     screen.blit(CIRCUIT, (0, 0))
-
-    # check if driver starts driving the car (=vehicule)
-    keys = pygame.key.get_pressed()   # use of pygame.key.get_pressed() because "listens" continuosly to keyboard
-    if keys[pygame.K_UP]:
-        # start driving
-        vehicule.drive_state = True
-    else:
-        vehicule.drive_state = False
         
     # updating the position of the car
     vehicule.update()

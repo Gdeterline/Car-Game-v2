@@ -12,15 +12,16 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         self.rect = self.image.get_rect(center=(200, 200)) 
         #vecteur à dimensions de coordonnees (x, y) ; variable vitesse
         self.vel = pygame.math.Vector2(1, 0) 
-        #initialisation d'une variable d'état pour l'état de la partie/voiture
-        self.drive_state = False 
         #variable pour l'angle
         self.angle = 0
         
     # driving function
     def drive(self):
-        if self.drive_state == True :
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP]:
             self.rect.center += self.vel * 2
+        elif keys[pygame.K_DOWN]:
+            self.rect.center -= self.vel * 2    
             
     # steering function - for now we only added the rotozoom function which moves the image properly -
     def steer(self):
