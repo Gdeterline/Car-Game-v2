@@ -15,7 +15,7 @@ CIRCUIT = pygame.image.load("./circuit.jpeg")
 # Resising image so it fits right
 CIRCUIT = pygame.transform.scale(CIRCUIT, (1000, 600))
 
-vehicule = car.Car()
+car = car.Car()
 
 # Run until user quits window
 running = True
@@ -38,10 +38,10 @@ while running:
     screen.blit(CIRCUIT, (0, 0))
         
     # updating the position of the car
-    vehicule.update()
+    car.update()
     
     # displays the car on the track
-    screen.blit(vehicule.image, vehicule.rect)
+    screen.blit(car.image, car.rect)
     
     # update the display
     pygame.display.update()
