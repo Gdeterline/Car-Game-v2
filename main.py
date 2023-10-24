@@ -20,6 +20,7 @@ car = car.Car()
 # Run until user quits window
 running = True
 while running:
+    dt = pygame.time.Clock().get_time() / 1000 
     
     for event in pygame.event.get():
         
@@ -38,11 +39,11 @@ while running:
     screen.blit(CIRCUIT, (0, 0))
 
     # updating the position of the car
-    car.update()
+    car.update(dt)
     
     # displays the car on the track
     
-    screen.blit(car.rotated_image, car.new_rect)
+    screen.blit(car.rotated, car.rect)
     
     # update the display
     pygame.display.update()
