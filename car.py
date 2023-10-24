@@ -37,14 +37,20 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         
         if drive_keys[pygame.K_UP]:
             self.acc += 1 * dt
-            self.vel += (self.acc * dt, 0)    
+            self.vel.x += self.acc * dt 
             print(self.vel) # Print keeps on displaying [0, 0]. Shouldn't. Should at least be [dt, 0] with value of dt instead.
             
             
         elif drive_keys[pygame.K_DOWN]:
             self.acc -= 1 * dt
-            self.vel += (self.acc * dt, 0) 
-        self.rect.center = self.vel
+            self.vel.x += self.acc * dt 
+            
+        else:
+            self.acc = 0
+            
+        self.pos += self.vel
+        self.rect.center = self.pos
+
         
         
             
