@@ -19,7 +19,7 @@ class Driving():
         if drive_keys[pygame.K_UP]:
             self.car.acc += 1 * dt
             self.car.vel.x += self.car.acc * dt 
-            print(self.car.vel) # Value changes rightfully. As expected.
+            #print(self.car.vel) # Value changes rightfully. As expected.
             
         elif drive_keys[pygame.K_DOWN]:
             self.car.acc -= 1 * dt
@@ -30,7 +30,7 @@ class Driving():
             
         self.car.pos += self.car.vel
         self.car.rect.center = self.car.pos
-        print(self.car.pos) # Value changes rightfully. As expected.
+        #print(self.car.pos) # Value changes rightfully. As expected.
         
         
 ############################### steer() function needs to be tested. Easier when the image will be able to move. ########################################
@@ -38,11 +38,15 @@ class Driving():
         
     def steer(self, dt):
         drive_keys = pygame.key.get_pressed()
-        if drive_keys[pygame.K_RIGHT] and self.car.steering:
+        if drive_keys[pygame.K_RIGHT]:
             self.car.steering -= 30 * dt
+            print(self.car.steering)
+            
+            ### self.car.steering changes value. Good news. Need to debug what comes after and check the display ###
+            
             turning_radius = h / math.sin(math.radians(self.car.steering))
             angular_velocity = self.car.vel.x / turning_radius
-        elif drive_keys[pygame.K_LEFT] and self.car.steering:
+        elif drive_keys[pygame.K_LEFT]:
             self.car.steering += 30 * dt
             turning_radius = h / math.sin(math.radians(self.car.steering))
             angular_velocity = self.car.vel.x / turning_radius

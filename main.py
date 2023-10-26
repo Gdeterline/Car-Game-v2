@@ -52,20 +52,12 @@ while running:
     driving.drive(dt)
     driving.steer(dt)
     
-            
-    
-    ############################### Image doesn't move accordingly to the movements ########################################
-    
     
     # displays the car on the track
     
-    new_image = pygame.transform.rotate(car.image, car.angle)
-    rect = new_image.get_rect(center=car.pos)
-    screen.blit(new_image, car.rect)
-    
-    
-    
-    
+    new_image = pygame.transform.rotate(driving.car.image, driving.car.angle)
+    rect = new_image.get_rect(center=driving.car.pos)
+    screen.blit(new_image, rect)
     
     
     # update the display
