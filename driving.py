@@ -8,12 +8,17 @@ CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
 w = CAR.get_width()
 h = CAR.get_height()
 
+
+################################## All #prints(.) were tests. All functional #####################################################################
+
+
 class Driving():
     def __init__(self):
         self.car = Car()
-    
+            
     
     def drive(self, dt):
+        acc_offset = 10 # Useful to make the car move faster (too slow otherwise)
         drive_keys = pygame.key.get_pressed()
         
         if drive_keys[pygame.K_UP]:
@@ -27,35 +32,39 @@ class Driving():
             
         else:
             self.car.acc = 0
-            
-        self.car.pos += self.car.vel
+         
+        # Physics managing moving direction   
+        self.car.pos.x += self.car.vel.x * math.cos(math.radians(self.car.angle)) * dt * acc_offset
+        self.car.pos.y -= self.car.vel.x * math.sin(math.radians(self.car.angle)) * dt * acc_offset
         self.car.rect.center = self.car.pos
         #print(self.car.pos) # Value changes rightfully. As expected.
-        
-        
-############################### steer() function needs to be tested. Easier when the image will be able to move. ########################################
-        
+                
         
     def steer(self, dt):
         drive_keys = pygame.key.get_pressed()
         if drive_keys[pygame.K_RIGHT]:
             self.car.steering -= 30 * dt
-            print(self.car.steering)
-            
-            ### self.car.steering changes value. Good news. Need to debug what comes after and check the display ###
-            
+            #print(self.car.steering)
             turning_radius = h / math.sin(math.radians(self.car.steering))
+            #print(turning_radius)
             angular_velocity = self.car.vel.x / turning_radius
+            #print(angular_velocity)
+            self.car.angle += math.degrees(angular_velocity) * dt * 100
         elif drive_keys[pygame.K_LEFT]:
             self.car.steering += 30 * dt
             turning_radius = h / math.sin(math.radians(self.car.steering))
             angular_velocity = self.car.vel.x / turning_radius
+            self.car.angle += math.degrees(angular_velocity) * dt * 100 # *100 to make the car turn faster
         else:
             self.car.steering = 0
             angular_velocity = 0
-        self.car.steering = max(-30, min(30, self.car.steering))
-        
-        self.car.pos += self.car.vel.rotate(-self.car.angle) * dt
-        self.car.angle += math.degrees(angular_velocity) * dt
             
-        self.car.rotated = pygame.transform.rotate(self.car.image, self.car.angle)
+            
+            
+        ########################################## Tryouts #################################################################################    
+            
+        #self.car.steering = max(-30, min(30, self.car.steering))
+        #self.car.pos += self.car.vel.rotate(-self.car.angle) * dt
+        #print(self.car.pos)
+        #print(self.car.angle) # Value changes rightfully. As expected.
+        #self.car.image = pygame.transform.rotate(self.car.image, self.car.angle)
