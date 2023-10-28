@@ -28,15 +28,25 @@ class Driving():
             
         elif drive_keys[pygame.K_DOWN]:
             self.car.acc -= 1 * dt
-            self.car.vel.x += self.car.acc * dt 
+            self.car.vel.x += self.car.acc * dt
             
-        else:
-            #tant que la voiture dépasse la vitesse de décélération, elle décélère selon la valeur de free_deceleration
-            if abs(self.car.vel.x) > self.car.free_deceleration * dt:
+        elif drive_keys[pygame.K_SPACE]: 
+            #tant que la voiture dépasse une vitesse trop importante, elle décélère selon la valeur de brake_deceleration
+            if abs(self.car.vel.x) > self.car.brake_deceleration * dt:
                 #appel de la fonction copysign pour gèrer le signe de la deceleration
-                self.car.acc = -copysign(self.car.free_deceleration, self.car.vel.x)
+                self.car.acc = -copysign(self.car.brake_deceleration, self.car.vel.x)
                 self.car.vel.x += self.car.acc * dt
             #sinon, elle décélère proportionnellement à sa vitesse jusqu'à s'arrêter
+            else:
+                self.car.acc = -self.car.vel.x / dt
+                self.car.vel.x += self.car.acc * dt 
+        
+        #simuler les frottements de l'air / frottements mécaniques / pertes d'energie quelconques 
+        #meme méthode que pour le freinage avec un coefficient de décélération différent
+        else:
+            if abs(self.car.vel.x) > self.car.free_deceleration * dt:
+                self.car.acc = -copysign(self.car.free_deceleration, self.car.vel.x)
+                self.car.vel.x += self.car.acc * dt
             else:
                 self.car.acc = -self.car.vel.x / dt
                 self.car.vel.x += self.car.acc * dt

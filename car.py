@@ -15,7 +15,7 @@ y = 200
 class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "sprite". Car defined by extending Sprite
     def __init__(self):
         super().__init__() #initialiser la classe
-        self.image = pygame.transform.scale(CAR, (w * 0.1, h * 0.1))
+        self.image = pygame.transform.scale(CAR, (w * 0.05, h * 0.05))
         #genere rectangle de coordonnees (x, y) de la taille de self.image
         self.rect = self.image.get_rect(center=(x, y)) 
         #vecteur à dimensions de coordonnees (x, y) ; variable vitesse (= direction de la voiture)
@@ -25,8 +25,10 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         self.steering = 0.0
         # variable pour l'accélération
         self.acc = 0.0
+        # variable pour le freinage
+        self.brake_deceleration = 5.0
         # variable pour la décélération
-        self.free_deceleration = 1
+        self.free_deceleration = 2.0
         # variable pour l'angle
         self.angle = 0.0
         # rotating the image
