@@ -1,6 +1,6 @@
 import pygame
 from car import Car
-import math
+from math import cos, sin, radians, degrees, copysign
 import os
 
 CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
@@ -31,11 +31,19 @@ class Driving():
             self.car.vel.x += self.car.acc * dt 
             
         else:
-            self.car.acc = 0
+            #tant que la voiture dépasse la vitesse de décélération, elle décélère selon la valeur de free_deceleration
+            if abs(self.car.vel.x) > self.car.free_deceleration * dt:
+                #appel de la fonction copysign pour gèrer le signe de la deceleration
+                self.car.acc = -copysign(self.car.free_deceleration, self.car.vel.x)
+                self.car.vel.x += self.car.acc * dt
+            #sinon, elle décélère proportionnellement à sa vitesse jusqu'à s'arrêter
+            else:
+                self.car.acc = -self.car.vel.x / dt
+                self.car.vel.x += self.car.acc * dt
          
         # Physics managing moving direction   
-        self.car.pos.x += self.car.vel.x * math.cos(math.radians(self.car.angle)) * dt * acc_offset
-        self.car.pos.y -= self.car.vel.x * math.sin(math.radians(self.car.angle)) * dt * acc_offset
+        self.car.pos.x += self.car.vel.x * cos(radians(self.car.angle)) * dt * acc_offset
+        self.car.pos.y -= self.car.vel.x * sin(radians(self.car.angle)) * dt * acc_offset
         self.car.rect.center = self.car.pos
         #print(self.car.pos) # Value changes rightfully. As expected.
                 
@@ -45,16 +53,16 @@ class Driving():
         if drive_keys[pygame.K_RIGHT]:
             self.car.steering -= 30 * dt
             #print(self.car.steering)
-            turning_radius = h / math.sin(math.radians(self.car.steering))
+            turning_radius = h / sin(radians(self.car.steering))
             #print(turning_radius)
             angular_velocity = self.car.vel.x / turning_radius
             #print(angular_velocity)
-            self.car.angle += math.degrees(angular_velocity) * dt * 100
+            self.car.angle += degrees(angular_velocity) * dt * 100
         elif drive_keys[pygame.K_LEFT]:
             self.car.steering += 30 * dt
-            turning_radius = h / math.sin(math.radians(self.car.steering))
+            turning_radius = h / sin(radians(self.car.steering))
             angular_velocity = self.car.vel.x / turning_radius
-            self.car.angle += math.degrees(angular_velocity) * dt * 100 # *100 to make the car turn faster
+            self.car.angle += degrees(angular_velocity) * dt * 100 # *100 to make the car turn faster
         else:
             self.car.steering = 0
             angular_velocity = 0
