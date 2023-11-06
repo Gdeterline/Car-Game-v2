@@ -6,6 +6,7 @@ import math
 
 # Initialising all pygame modules
 pygame.init()
+pygame.mixer.init()
 
 CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
 
@@ -18,6 +19,10 @@ CIRCUIT = pygame.image.load("./circuit.jpeg")
 
 # Resising image so it fits right
 CIRCUIT = pygame.transform.scale(CIRCUIT, (1000, 600))
+
+accelerate_sound = pygame.mixer.Sound("./car_acc_sound.mp3")
+breaking_sound = pygame.mixer.Sound("./car_break_sound.mp3")
+reverse_sound = pygame.mixer.Sound("./car_rev_sound.mp3")
 
 clock = pygame.time.Clock()
 
@@ -52,6 +57,11 @@ while running:
     driving.drive(dt)
     driving.steer(dt)
     
+    accelerate_sound.stop()
+    breaking_sound.stop()
+    reverse_sound.stop()
+    
+    
     
     # displays the car on the track
     
@@ -65,4 +75,5 @@ while running:
     pygame.display.flip()
         
 # Quit pygame when done playing
+pygame.mixer.quit()
 pygame.quit()

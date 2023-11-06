@@ -8,6 +8,11 @@ CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
 w = CAR.get_width()
 h = CAR.get_height()
 
+pygame.mixer.init()
+accelerate_sound = pygame.mixer.Sound("./car_acc_sound.mp3")
+breaking_sound = pygame.mixer.Sound("./car_break_sound.mp3")
+reverse_sound = pygame.mixer.Sound("./car_rev_sound.mp3")
+
 
 ################################## All #prints(.) were tests. All functional #####################################################################
 
@@ -25,21 +30,31 @@ class Driving():
             self.car.acc += 1 * dt
             self.car.vel.x += self.car.acc * dt 
             #print(self.car.vel) # Value changes rightfully. As expected.
+            reverse_sound.stop()
+            accelerate_sound.play()
+
             
         elif drive_keys[pygame.K_DOWN]:
             self.car.acc -= 1 * dt
             self.car.vel.x += self.car.acc * dt
+            accelerate_sound.stop()
+            reverse_sound.play()
+            
             
         elif drive_keys[pygame.K_SPACE]: 
             #tant que la voiture dépasse une vitesse trop importante, elle décélère selon la valeur de brake_deceleration
             if abs(self.car.vel.x) > self.car.brake_deceleration * dt:
                 #appel de la fonction copysign pour gèrer le signe de la deceleration
-                self.car.acc = -copysign(self.car.brake_deceleration, self.car.vel.x)
-                self.car.vel.x += self.car.acc * dt
+                self.car.acc = -copysign(self.car.brake_deceleration, self.car.vel.x) # check if going rear bug comes from here
+                self.car.vel.x += self.car.acc * dt * 5 # *5 to make the car brake faster
+                
             #sinon, elle décélère proportionnellement à sa vitesse jusqu'à s'arrêter
             else:
                 self.car.acc = -self.car.vel.x / dt
                 self.car.vel.x += self.car.acc * dt 
+            accelerate_sound.stop()
+            reverse_sound.stop()
+            breaking_sound.play()
         
         #simuler les frottements de l'air / frottements mécaniques / pertes d'energie quelconques 
         #meme méthode que pour le freinage avec un coefficient de décélération différent
