@@ -3,6 +3,8 @@ import os
 import car
 from driving import Driving
 import math
+import tkinter as tk
+from tkinter import messagebox
 
 # Initialising all pygame modules
 pygame.init()
@@ -24,12 +26,11 @@ CIRCUIT = pygame.image.load("./rect_racetrack.jpg")
 # Circuit exterior borders (top, right, bottom, left) : (65, 895, 535, 105)
 
 
-
 # Resising image so it fits right
 CIRCUIT = pygame.transform.scale(CIRCUIT, (1000, 600))
 
 # Defining inner racetrack rect
-INNER_CIRCUIT_RECT = pygame.rect.Rect(245, 140, 510, 320) 
+#INNER_CIRCUIT_RECT = pygame.rect.Rect(245, 140, 510, 320) 
 
 accelerate_sound = pygame.mixer.Sound("./car_acc_sound.mp3")
 breaking_sound = pygame.mixer.Sound("./car_break_sound.mp3")
@@ -64,11 +65,11 @@ while running:
     w = CAR.get_width()
     h = CAR.get_height()
     
-    if pygame.Rect.colliderect(car.rect, INNER_CIRCUIT_RECT):
-        running = False
-    
     driving.drive(dt)
     driving.steer(dt)
+    
+    running = driving.collide()
+    
     
     accelerate_sound.stop()
     breaking_sound.stop()
