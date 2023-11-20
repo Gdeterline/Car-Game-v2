@@ -21,12 +21,15 @@ screen = pygame.display.set_mode((LARGEUR, HAUTEUR)) #Afficher l'ecran de jeu
 CIRCUIT = pygame.image.load("./rect_racetrack.jpg")
 
 # Circuit interior borders (top, right, bottom, left) : (140, 755, 460, 245)
-# Circuit interior borders (top, right, bottom, left) : (65, 895, 535, 105)
+# Circuit exterior borders (top, right, bottom, left) : (65, 895, 535, 105)
 
 
 
 # Resising image so it fits right
 CIRCUIT = pygame.transform.scale(CIRCUIT, (1000, 600))
+
+# Defining inner racetrack rect
+INNER_CIRCUIT_RECT = pygame.rect.Rect(245, 140, 510, 320) 
 
 accelerate_sound = pygame.mixer.Sound("./car_acc_sound.mp3")
 breaking_sound = pygame.mixer.Sound("./car_break_sound.mp3")
@@ -61,6 +64,8 @@ while running:
     w = CAR.get_width()
     h = CAR.get_height()
     
+    if pygame.Rect.colliderect(car.rect, INNER_CIRCUIT_RECT):
+        running = False
     
     driving.drive(dt)
     driving.steer(dt)
