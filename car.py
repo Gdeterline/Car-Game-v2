@@ -11,7 +11,8 @@ w = CAR.get_width()
 h = CAR.get_height()
 
 x = 200
-y = 200
+y = 100
+
 class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "sprite". Car defined by extending Sprite
     def __init__(self):
         super().__init__() #initialiser la classe

@@ -17,7 +17,13 @@ HAUTEUR = 600
 screen = pygame.display.set_mode((LARGEUR, HAUTEUR)) #Afficher l'ecran de jeu
 #CIRCUIT = pygame.image.load("./circuit.jpeg")
 #CIRCUIT = pygame.image.load("./circuit2.jpeg")
-CIRCUIT = pygame.image.load("./circuit3.jpeg")
+#CIRCUIT = pygame.image.load("./circuit3.jpeg")
+CIRCUIT = pygame.image.load("./rect_racetrack.jpg")
+
+# Circuit interior borders (top, right, bottom, left) : (140, 755, 460, 245)
+# Circuit interior borders (top, right, bottom, left) : (65, 895, 535, 105)
+
+
 
 # Resising image so it fits right
 CIRCUIT = pygame.transform.scale(CIRCUIT, (1000, 600))
