@@ -19,7 +19,9 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         self.image = pygame.transform.scale(CAR, (w * 0.05, h * 0.05))
         #genere rectangle de coordonnees (x, y) de la taille de self.image
         self.rect = self.image.get_rect(center=(x, y)) 
-        #vecteur à dimensions de coordonnees (x, y) ; variable vitesse (= direction de la voiture)
+        # Creating the mask of the car
+        self.mask = pygame.mask.from_surface(self.image)
+        # vecteur à dimensions de coordonnees (x, y) ; variable vitesse (= direction de la voiture)
         self.vel = pygame.math.Vector2(0, 0) 
         self.pos = pygame.math.Vector2(x, y)
         #variable pour l'angle

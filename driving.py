@@ -96,14 +96,14 @@ class Driving():
             
     
            
-            
+    '''        
     def collide(self):
         if self.car.pos.x > 245 and self.car.pos.x < 755 and self.car.pos.y > 140 and self.car.pos.y < 460 :
             return False
         elif self.car.pos.x > 895 and self.car.pos.x < 105 and self.car.pos.y > 535 and self.car.pos.y < 65 :
             return False
         return True
-
+    '''
         
         
             
