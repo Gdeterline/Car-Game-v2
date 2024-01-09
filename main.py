@@ -50,14 +50,14 @@ res = cv2.bitwise_and(circuit_img, circuit_img, mask=racetrack_mask)
 # Checking if the mask is correct
 #cv2.imshow("res", res)
 
-
-
+'''
 def collision_detection():
     collision = pygame.mask.Mask.overlap(driving.car.mask, (driving.car.pos.x, driving.car.pos.y))      ##### Error with mask. Maybe use pygame mask for the racetrack too - would make sense
+                                                                                                        ##### Offset needs to be checked (top left corners of each maks used as reference)
     if collision:
         print("Collision detected")
         running = False
-
+'''
 # Defining inner racetrack rect
 #INNER_CIRCUIT_RECT = pygame.rect.Rect(245, 140, 510, 320) 
 
@@ -112,7 +112,7 @@ while running:
     rect = new_image.get_rect(center=driving.car.pos)
     screen.blit(new_image, rect)
     
-    collision_detection()
+    #collision_detection()
     
     # update the display
     pygame.display.update()

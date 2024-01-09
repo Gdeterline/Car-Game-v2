@@ -72,6 +72,7 @@ class Driving():
         self.car.pos.x += self.car.vel.x * cos(radians(self.car.angle)) * dt * acc_offset
         self.car.pos.y -= self.car.vel.x * sin(radians(self.car.angle)) * dt * acc_offset
         self.car.rect.center = self.car.pos
+        print(self.car.pos)
         #print(self.car.pos) # Value changes rightfully. As expected.
                 
         
