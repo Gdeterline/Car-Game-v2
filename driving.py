@@ -67,7 +67,7 @@ class Driving():
             else:
                 self.car.acc = -self.car.vel.x / dt
                 self.car.vel.x += self.car.acc * dt
-         
+                
         # Physics managing moving direction   
         self.car.pos.x += self.car.vel.x * cos(radians(self.car.angle)) * dt * acc_offset
         self.car.pos.y -= self.car.vel.x * sin(radians(self.car.angle)) * dt * acc_offset
@@ -97,14 +97,14 @@ class Driving():
             
     
            
-    '''        
+           
     def collide(self):
         if self.car.pos.x > 245 and self.car.pos.x < 755 and self.car.pos.y > 140 and self.car.pos.y < 460 :
             return False
         elif self.car.pos.x > 895 and self.car.pos.x < 105 and self.car.pos.y > 535 and self.car.pos.y < 65 :
             return False
         return True
-    '''
+    
         
         
             
