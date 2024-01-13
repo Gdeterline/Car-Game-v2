@@ -1,6 +1,8 @@
 import pygame
 import os
 import car
+from car import Car
+#from collision import collide
 from driving import Driving
 import cv2
 import numpy as np
@@ -15,10 +17,11 @@ pygame.mixer.init()
 CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
 
 
-LARGEUR = 1000 #dimension de l'image circuit
+LARGEUR = 1000
 HAUTEUR = 600
 
 screen = pygame.display.set_mode((LARGEUR, HAUTEUR)) #Afficher l'ecran de jeu
+
 #CIRCUIT = pygame.image.load("./circuit.jpeg")
 #CIRCUIT = pygame.image.load("./circuit2.jpeg")
 #CIRCUIT = pygame.image.load("./circuit3.jpeg")
@@ -41,20 +44,24 @@ circuit_hsv = cv2.cvtColor(circuit_img, cv2.COLOR_BGR2HSV)
 BRIGHT_GREEN = np.array([0, 0, 200])
 DARK_GREY = np.array([255, 50, 255])
 
-# Creating a mask of the racetrack
-racetrack_mask = cv2.inRange(circuit_hsv, BRIGHT_GREEN, DARK_GREY)
+# Creating a mask of the racetrack and resizing it
+racetrack_mask= cv2.inRange(circuit_hsv, BRIGHT_GREEN, DARK_GREY)
 
-# Bitwise-AND mask and original image
+# Ensure the mask has the correct data type and size
+racetrack_mask = racetrack_mask.astype(np.uint8)
+
+# Make sure the mask has the same size as the circuit_img
+racetrack_mask = cv2.resize(racetrack_mask, (circuit_img.shape[1], circuit_img.shape[0]))
+
+# Apply the bitwise_and operation
 res = cv2.bitwise_and(circuit_img, circuit_img, mask=racetrack_mask)
 
 # Checking if the mask is correct
 #cv2.imshow("res", res)
 
-def collision_detection():
-    collision = driving.car.mask.overlap(driving.car.mask, (driving.car.pos.x, driving.car.pos.y))
-    if collision:
-        print("Collision detected")
-        running = False
+#other idea for the mask :
+circuit_mask = pygame.mask.from_surface(CIRCUIT)
+
 
 # Defining inner racetrack rect
 # INNER_CIRCUIT_RECT = pygame.rect.Rect(245, 140, 510, 320) 
@@ -65,8 +72,17 @@ reverse_sound = pygame.mixer.Sound("./car_rev_sound.mp3")
 
 clock = pygame.time.Clock()
 
-car = car.Car()
+car = Car()
 driving = Driving()
+
+'''
+def collision_detection():
+    collision = driving.car.mask.overlap(circuit_mask, (int(driving.car.pos.x), int(driving.car.pos.y)))
+    
+    if collision:
+        print("Collision detected")
+        running = False
+'''
 
 # Run until user quits window
 running = True
@@ -95,13 +111,13 @@ while running:
     driving.drive(dt)
     driving.steer(dt)
     
-    running = driving.collide()
+    if driving.collide():
+        running = False
     
-    
+    #print(driving.car.pos)
     accelerate_sound.stop()
     breaking_sound.stop()
     reverse_sound.stop()
-    
     
     
     # displays the car on the track
@@ -110,7 +126,7 @@ while running:
     rect = new_image.get_rect(center=driving.car.pos)
     screen.blit(new_image, rect)
     
-    collision_detection()
+    #collision_detection()
     
     # update the display
     pygame.display.update()

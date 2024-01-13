@@ -2,6 +2,8 @@ import pygame
 from car import Car
 from math import cos, sin, radians, degrees, copysign
 import os
+import numpy as np
+import cv2
 import tkinter as tk
 from tkinter import messagebox
 
@@ -93,19 +95,33 @@ class Driving():
             self.car.angle += degrees(angular_velocity) * dt * 100 # *100 to make the car turn faster
         else:
             self.car.steering = 0
-            angular_velocity = 0
-            
-    
-           
-           
+
     def collide(self):
+        car_mask = self.car.mask
+        CIRCUIT = pygame.transform.scale(pygame.image.load("./rect_racetrack.jpg"), (1000, 600))
+        circuit_img = cv2.imread("./rect_racetrack.jpg")
+        circuit_hsv = cv2.cvtColor(circuit_img, cv2.COLOR_BGR2HSV)
+        BRIGHT_GREEN = np.array([0, 0, 200])
+        DARK_GREY = np.array([255, 50, 255])
+        racetrack_mask = cv2.inRange(circuit_hsv, BRIGHT_GREEN, DARK_GREY)
+        # transform the racetrack_mask into a pygame mask
+        racetrack_mask_pygame = pygame.mask.from_surface(pygame.surfarray.make_surface(racetrack_mask))
+        collision = car_mask.overlap(racetrack_mask_pygame, (int(self.car.pos.x), int(self.car.pos.y)))
+        ### issue = the mask is not centered properely. The detection works but not on the track.
+        if collision:
+            print("Collision with racetrack detected")
+            return True
+
+        return False
+    
+        '''
         if self.car.pos.x > 245 and self.car.pos.x < 755 and self.car.pos.y > 140 and self.car.pos.y < 460 :
             return False
         elif self.car.pos.x > 895 and self.car.pos.x < 105 and self.car.pos.y > 535 and self.car.pos.y < 65 :
             return False
         return True
-    
-        
+        '''
+
         
             
             

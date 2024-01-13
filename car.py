@@ -34,8 +34,6 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         self.free_deceleration = 2.0
         # variable pour l'angle
         self.angle = 0.0
-        # rotating the image
-        self.rotated = pygame.transform.rotate(self.image, self.angle)
         
 
         
