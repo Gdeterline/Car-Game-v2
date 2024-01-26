@@ -69,7 +69,7 @@ class Driving():
             else:
                 self.car.acc = -self.car.vel.x / dt
                 self.car.vel.x += self.car.acc * dt
-                
+
         # Physics managing moving direction   
         self.car.pos.x += self.car.vel.x * cos(radians(self.car.angle)) * dt * acc_offset
         self.car.pos.y -= self.car.vel.x * sin(radians(self.car.angle)) * dt * acc_offset
