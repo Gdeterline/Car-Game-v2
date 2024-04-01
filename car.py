@@ -9,12 +9,11 @@ CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
 w = CAR.get_width()
 h = CAR.get_height()
 
-x = 200
-y = 100
+
 
 class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "sprite". Car defined by extending Sprite
     
-    def __init__(self):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         ###### Car's image and mask ######
         self.image = pygame.transform.scale(CAR, (w * 0.05, h * 0.05))
@@ -34,21 +33,23 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
     ####### Car's methods - Car Physics #######
         
     def move(self):
-        
-        # If the car is moving forward
-        if self.velocity >= 0:
-            self.position[0] += self.velocity * math.cos(math.radians(self.angle))
-            self.position[1] -= self.velocity * math.sin(math.radians(self.angle))   
-        # If the car is moving backwards. The car's angle is inverted 
-        else:
-            self.position[0] -= self.velocity * math.cos(math.radians(self.angle))
-            self.position[1] += self.velocity * math.sin(math.radians(self.angle))
-    
+        self.position[0] += self.velocity * math.cos(math.radians(self.angle))
+        self.position[1] -= self.velocity * math.sin(math.radians(self.angle))   
+
     def turn_left(self):
-        self.angle += 5  
+        # If the car is moving forward, the angle increases by 5 degrees
+        if self.velocity >= 0:
+            self.angle += 5  
+            # If the car is moving backward, the angle decreases by 5 degrees
+        else:
+            self.angle -= 5
     
     def turn_right(self):
-        self.angle -= 5
+        # Same here, but in the opposite direction
+        if self.velocity >= 0:
+            self.angle -= 5
+        else:
+            self.angle += 5
         
     def accelerate(self):
         self.velocity += 0.1
