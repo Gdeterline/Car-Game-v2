@@ -18,7 +18,7 @@ CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
 w = CAR.get_width()
 h = CAR.get_height()
 
-RACETRACK = pygame.image.load(os.path.join(os.getcwd(), "circuit.jpeg"))
+RACETRACK = pygame.image.load(os.path.join(os.getcwd(), "rect_racetrack.jpg"))
 RACETRACK = pygame.transform.scale(RACETRACK, (1000, 600))
 
 lapsP1 = 0
@@ -41,7 +41,7 @@ class MainGame():
         self.selected_circuit = None
         
     
-    def run_menu(self):
+    """ def run_menu(self):
         pygame.init()
         running = True
         while running:
@@ -64,7 +64,7 @@ class MainGame():
             
             if self.selected_circuit is not None and self.laps is None:
                 self.laps = self.menu.select_laps()
-                self.run_game()
+                self.run_game() """
     
     
     def run_game(self):
@@ -116,7 +116,6 @@ class MainGame():
                 raise Exception("Player 2 has collided with the boundary")
             
             
-            
             # Check for collisions between the two cars
             if self.collision_manager1.check_car_collisions(car1=self.player1.car, car2=self.player2.car):
                 print("Collision P1 and P2")
@@ -148,5 +147,5 @@ class MainGame():
 
             
 game = MainGame()
-game.run_menu()
+game.run_game()
 pygame.quit()
