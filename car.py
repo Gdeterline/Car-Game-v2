@@ -34,12 +34,19 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
     ####### Car's methods - Car Physics #######
         
     def move(self):
-        self.position[0] += self.velocity * math.cos(math.radians(self.angle))
-        self.position[1] -= self.velocity * math.sin(math.radians(self.angle))    
+        
+        # If the car is moving forward
+        if self.velocity >= 0:
+            self.position[0] += self.velocity * math.cos(math.radians(self.angle))
+            self.position[1] -= self.velocity * math.sin(math.radians(self.angle))   
+        # If the car is moving backwards. The car's angle is inverted 
+        else:
+            self.position[0] -= self.velocity * math.cos(math.radians(self.angle))
+            self.position[1] += self.velocity * math.sin(math.radians(self.angle))
     
     def turn_left(self):
-        self.angle += 5
-        
+        self.angle += 5  
+    
     def turn_right(self):
         self.angle -= 5
         

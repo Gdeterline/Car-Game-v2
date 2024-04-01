@@ -4,6 +4,7 @@ import math
 import os
 from Car import Car
 from Player import Player
+from CollisionManager import CollisionManager
 
 ## Set up the screen ##
 LARGEUR = 1000
@@ -16,7 +17,7 @@ CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
 w = CAR.get_width()
 h = CAR.get_height()
 
-RACETRACK = pygame.image.load(os.path.join(os.getcwd(), "rect_racetrack.jpg"))
+RACETRACK = pygame.image.load(os.path.join(os.getcwd(), "circuit2.jpeg"))
 RACETRACK = pygame.transform.scale(RACETRACK, (1000, 600))
 
 
@@ -28,6 +29,8 @@ class MainGame():
         self.car2 = Car()
         self.player1 = Player(self.car1, {'left': pygame.K_LEFT, 'right': pygame.K_RIGHT, 'up': pygame.K_UP, 'down': pygame.K_DOWN, 'brake': pygame.K_SPACE})
         self.player2 = Player(self.car2, {'left': pygame.K_q, 'right': pygame.K_d, 'up': pygame.K_z, 'down': pygame.K_s, 'brake': pygame.K_x})
+        self.collision_manager1 = CollisionManager(self.car1, RACETRACK)
+        self.collision_manager2 = CollisionManager(self.car2, RACETRACK)
     
     def run(self):
         pygame.init()
@@ -49,19 +52,34 @@ class MainGame():
                 
             self.player1.ingame_inputs()
             self.player1.car.update()
-            print("Velocity P1: ", self.player1.car.velocity)
+            
+            """ print("Velocity P1: ", self.player1.car.velocity)
             print()
             print("Position vector P1: ", self.player1.car.position)
             print()
-            print("Angle P1: ", self.player1.car.angle)
+            print("Angle P1: ", self.player1.car.angle) """
             
             self.player2.ingame_inputs()
             self.player2.car.update()
-            print("Velocity P2: ", self.player2.car.velocity)
+            
+            """ print("Velocity P2: ", self.player2.car.velocity)
             print()
             print("Position vector P2: ", self.player2.car.position)
             print()
-            print("Angle P2: ", self.player2.car.angle)
+            print("Angle P2: ", self.player2.car.angle) """
+            
+            # Check for collisions
+            if self.collision_manager1.check_boundary_collision(car=self.player1.car):
+                print("Collision P1")
+                # Raise an exception to stop the game
+                raise Exception("Player 1 has collided with the boundary")
+
+                
+            if self.collision_manager2.check_boundary_collision(car=self.player2.car):  
+                print("Collision P2")
+                # Raise an exception to stop the game
+                raise Exception("Player 2 has collided with the boundary")
+                    
             
             
             clock.tick(60)
