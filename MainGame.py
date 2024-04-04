@@ -10,7 +10,7 @@ from Menu import Menu
 ## Set up the screen ##
 LARGEUR = 1000
 HAUTEUR = 600
-screen = pygame.display.set_mode((LARGEUR, HAUTEUR))
+
 
 
 ## Load the car and the racetrack images ##
@@ -18,8 +18,8 @@ CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
 w = CAR.get_width()
 h = CAR.get_height()
 
-RACETRACK = pygame.image.load(os.path.join(os.getcwd(), "rect_racetrack.jpg"))
-RACETRACK = pygame.transform.scale(RACETRACK, (1000, 600))
+RACETRACK = pygame.image.load(os.path.join(os.getcwd(), "circuit.jpeg"))
+RACETRACK = pygame.transform.scale(RACETRACK, (LARGEUR, HAUTEUR))
 
 lapsP1 = 0
 lapsP2 = 0
@@ -28,6 +28,8 @@ lapsP2 = 0
 
 class MainGame():
     def __init__(self):
+        # Set up the screen
+        self.screen = pygame.display.set_mode((LARGEUR, HAUTEUR))
         # Ingame components
         self.car1 = Car(200, 100)
         self.car2 = Car(250, 100)
@@ -36,13 +38,12 @@ class MainGame():
         self.collision_manager1 = CollisionManager(self.car1, RACETRACK)
         self.collision_manager2 = CollisionManager(self.car2, RACETRACK)
         # Menu components
-        self.menu = Menu()
+        self.menu = Menu(self.screen)
         self.laps = None
         self.selected_circuit = None
         
     
-    """ def run_menu(self):
-        pygame.init()
+    def run_menu(self):
         running = True
         while running:
             
@@ -58,13 +59,13 @@ class MainGame():
                         running = False
                         pygame.quit()
                         
-            while self.selected_circuit is None:
-                self.menu.display_menu()
-                self.menu.menu_input()
-            
-            if self.selected_circuit is not None and self.laps is None:
-                self.laps = self.menu.select_laps()
-                self.run_game() """
+        while self.selected_circuit is None:
+            self.menu.display_menu()
+            self.menu.menu_input()
+
+        if self.selected_circuit is not None and self.laps is None:
+            self.laps = self.menu.select_laps()
+            self.run_game()
     
     
     def run_game(self):
@@ -107,7 +108,7 @@ class MainGame():
             # Check for collisions
             if self.collision_manager1.check_boundary_collision(car=self.player1.car):
                 print("Collision P1")
-                # Raise an exception to stop the game
+                # Raise an exception to stop the games
                 raise Exception("Player 1 has collided with the boundary")
    
             if self.collision_manager2.check_boundary_collision(car=self.player2.car):  
@@ -147,5 +148,6 @@ class MainGame():
 
             
 game = MainGame()
-game.run_game()
+pygame.init()
+game.run_menu()
 pygame.quit()
