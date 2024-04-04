@@ -39,17 +39,17 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
     def turn_left(self):
         # If the car is moving forward, the angle increases by 5 degrees
         if self.velocity >= 0:
-            self.angle += 5  
+            self.angle += 2  
             # If the car is moving backward, the angle decreases by 5 degrees
         else:
-            self.angle -= 5
+            self.angle -= 2
     
     def turn_right(self):
         # Same here, but in the opposite direction
         if self.velocity >= 0:
-            self.angle -= 5
+            self.angle -= 2
         else:
-            self.angle += 5
+            self.angle += 2
         
     def accelerate(self):
         self.velocity += 0.1

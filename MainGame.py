@@ -6,19 +6,18 @@ from Car import Car
 from Player import Player
 from CollisionManager import CollisionManager
 from Menu import Menu
+from tkinter import messagebox
 
 ## Set up the screen ##
 LARGEUR = 1000
 HAUTEUR = 600
-
-
 
 ## Load the car and the racetrack images ##
 CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
 w = CAR.get_width()
 h = CAR.get_height()
 
-RACETRACK = pygame.image.load(os.path.join(os.getcwd(), "circuit.jpeg"))
+RACETRACK = pygame.image.load(os.path.join(os.getcwd(), "rect_racetrack.jpg"))
 RACETRACK = pygame.transform.scale(RACETRACK, (LARGEUR, HAUTEUR))
 
 lapsP1 = 0
@@ -110,6 +109,9 @@ class MainGame():
                 print("Collision P1")
                 # Raise an exception to stop the games
                 raise Exception("Player 1 has collided with the boundary")
+                # To replace with a popup message
+                #messagebox.showinfo("Collision", "Player 1 has collided with the boundary")
+
    
             if self.collision_manager2.check_boundary_collision(car=self.player2.car):  
                 print("Collision P2")
@@ -120,7 +122,7 @@ class MainGame():
             # Check for collisions between the two cars
             if self.collision_manager1.check_car_collisions(car1=self.player1.car, car2=self.player2.car):
                 print("Collision P1 and P2")
-                # Raise an exception to stop the game
+               # Raise an exception to stop the game
                 raise Exception("Player 1 and Player 2 have collided")
                     
             
@@ -128,19 +130,19 @@ class MainGame():
             clock.tick(60)
                     
             # Clear the screen to erase the drag of the car 
-            screen.fill((0, 0, 0))
+            self.screen.fill((0, 0, 0))
 
             # display race track on the screen with .blit()
-            screen.blit((RACETRACK), (0, 0))
+            self.screen.blit((RACETRACK), (0, 0))
             
             # displays the car on the track
             new_image = pygame.transform.rotate(self.player1.car.image, self.player1.car.angle)
             rect = new_image.get_rect(center=self.player1.car.position)
-            screen.blit(new_image, rect)
+            self.screen.blit(new_image, rect)
             
             new_image = pygame.transform.rotate(self.player2.car.image, self.player2.car.angle)
             rect = new_image.get_rect(center=self.player2.car.position)
-            screen.blit(new_image, rect)
+            self.screen.blit(new_image, rect)
             
             # update the display
             pygame.display.flip()
@@ -149,5 +151,5 @@ class MainGame():
             
 game = MainGame()
 pygame.init()
-game.run_menu()
+game.run_game()
 pygame.quit()
