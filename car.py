@@ -3,7 +3,8 @@ import os
 import numpy as np
 import math
 
-CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
+CAR = pygame.image.load(os.path.join(os.getcwd(), "./images/car.png"))
+CRASH = pygame.image.load(os.path.join(os.getcwd(), "./images/crash.png"))
 
 # permet de réduire l'image unifomement plus tard
 w = CAR.get_width()
@@ -17,6 +18,7 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         pygame.sprite.Sprite.__init__(self)
         ###### Car's image and mask ######
         self.image = pygame.transform.scale(CAR, (w * 0.05, h * 0.05))
+        self.crash = pygame.transform.scale(CRASH, (w * 0.1, h * 0.1))
         self.rect = self.image.get_rect(center=(x, y)) 
         # Creating the mask of the car. Useful for collision detection
         self.mask = pygame.mask.from_surface(self.image)
