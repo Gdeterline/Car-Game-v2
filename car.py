@@ -75,6 +75,7 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         self.move()
         self.rect = self.image.get_rect(center=(self.position[0], self.position[1]))
         self.mask = pygame.mask.from_surface(self.image)
+        print("Position vector: ", self.position)
         
         
         

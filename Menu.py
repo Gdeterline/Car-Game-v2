@@ -6,6 +6,17 @@ from Car import Car
 from Player import Player
 from CollisionManager import CollisionManager
 
+pygame.init()
+
+RACETRACK1 = pygame.image.load(os.path.join(os.getcwd(), "./images/circuit.jpeg"))
+RACETRACK1 = pygame.transform.scale(RACETRACK1, (1000, 600))
+RACETRACK2 = pygame.image.load(os.path.join(os.getcwd(), "./images/circuit2.png"))
+RACETRACK2 = pygame.transform.scale(RACETRACK2, (1000, 600))
+# Initial position 622, 244
+RACETRACK3 = pygame.image.load(os.path.join(os.getcwd(), "./images/rect_racetrack.jpg"))
+RACETRACK3 = pygame.transform.scale(RACETRACK3, (1000, 600))
+
+
 ## This class creates a menu that is used to select the racetrack and the number of laps to be played
 class Menu():
     def __init__(self, screen):
@@ -38,7 +49,7 @@ class Menu():
         self.scaled_background.blit(text, (50, 350))
 
         if self.selected_circuit is not None:
-            text = font.render("Selected Circuit: " + self.selected_circuit, True, (255, 255, 255))
+            text = font.render("Selected Circuit: " + str(self.selected_circuit), True, (255, 255, 255))
             self.scaled_background.blit(text, (50, 250))
 
         if self.laps is not None:
@@ -54,14 +65,14 @@ class Menu():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
-                    self.selected_circuit = "circuit.jpeg"
+                    self.selected_circuit = RACETRACK1
                     print("Selected circuit: ", self.selected_circuit)
                     return self.selected_circuit
                 elif event.key == pygame.K_b:
-                    self.selected_circuit = "circuit2.jpeg"
+                    self.selected_circuit = RACETRACK2
                     return self.selected_circuit
                 elif event.key == pygame.K_c:
-                    self.selected_circuit = "rect_racetrack.jpg"
+                    self.selected_circuit = RACETRACK3
                     return self.selected_circuit
                 
                     

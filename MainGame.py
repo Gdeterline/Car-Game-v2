@@ -19,8 +19,6 @@ CAR = pygame.image.load(os.path.join(os.getcwd(), "./images/car.png"))
 w = CAR.get_width()
 h = CAR.get_height()
 
-RACETRACK = pygame.image.load(os.path.join(os.getcwd(), "./images/rect_racetrack.jpg"))
-RACETRACK = pygame.transform.scale(RACETRACK, (LARGEUR, HAUTEUR))
 
 START_IMAGE = pygame.image.load(os.path.join(os.getcwd(), "./images/start.png"))
 START = pygame.transform.scale(START_IMAGE, (LARGEUR, HAUTEUR))
@@ -37,24 +35,25 @@ class MainGame():
         # Set up the screen
         self.screen = pygame.display.set_mode((LARGEUR, HAUTEUR))
         
-        # Ingame components
-        self.car1 = Car(200, 100)
-        self.car2 = Car(250, 100)
-        
-        self.player1 = Player(self.car1, {'left': pygame.K_LEFT, 'right': pygame.K_RIGHT, 'up': pygame.K_UP, 'down': pygame.K_DOWN, 'brake': pygame.K_SPACE})
-        self.player2 = Player(self.car2, {'left': pygame.K_q, 'right': pygame.K_d, 'up': pygame.K_z, 'down': pygame.K_s, 'brake': pygame.K_x})
-        
-        self.collision_manager1 = CollisionManager(self.car1, RACETRACK)
-        self.collision_manager2 = CollisionManager(self.car2, RACETRACK)
-        
-        self.lapsP1 = 0
-        self.lapsP2 = 0
-        
         # Menu components
         self.menu = Menu(self.screen)
         
         self.selected_circuit = None
         self.laps = None
+        
+        # Ingame components
+        self.car1 = Car(600, 244)
+        self.car2 = Car(650, 244)
+        
+        self.player1 = Player(self.car1, {'left': pygame.K_LEFT, 'right': pygame.K_RIGHT, 'up': pygame.K_UP, 'down': pygame.K_DOWN, 'brake': pygame.K_SPACE})
+        self.player2 = Player(self.car2, {'left': pygame.K_q, 'right': pygame.K_d, 'up': pygame.K_z, 'down': pygame.K_s, 'brake': pygame.K_x})
+        
+        self.collision_manager1 = CollisionManager(self.car1, self.selected_circuit)
+        self.collision_manager2 = CollisionManager(self.car2, self.selected_circuit)
+        
+        self.lapsP1 = 0
+        self.lapsP2 = 0
+        
         
 
     def run_menu(self):
@@ -129,7 +128,7 @@ class MainGame():
             
             
             # Check for collisions
-            if self.collision_manager1.check_boundary_collision(car=self.player1.car):
+            if self.collision_manager1.check_boundary_collision(self.player1.car, self.selected_circuit):
                 print("Collision P1")
                 new_image = pygame.transform.rotate(self.player1.car.image, self.player1.car.angle)
                 rect = new_image.get_rect(center=self.player1.car.position)
@@ -140,7 +139,7 @@ class MainGame():
                 raise Exception("Player 1 has collided with the boundary")
 
    
-            if self.collision_manager2.check_boundary_collision(car=self.player2.car):  
+            if self.collision_manager2.check_boundary_collision(self.player2.car, self.selected_circuit):  
                 print("Collision P2")
                 new_image = pygame.transform.rotate(self.player2.car.image, self.player2.car.angle)
                 rect = new_image.get_rect(center=self.player2.car.position)
@@ -166,7 +165,7 @@ class MainGame():
             self.screen.fill((0, 0, 0))
 
             # display race track on the screen with .blit()
-            self.screen.blit((RACETRACK), (0, 0))
+            self.screen.blit((self.selected_circuit), (0, 0))
             
             # Display the number of laps on the screen for each player
             lapsP1txt = fontlapsP1P2.render("Laps P1 : " + str(lapsP1), True, (255, 255, 255))
