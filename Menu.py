@@ -36,21 +36,28 @@ class Menu():
         text = font.render("Menu:", True, (255, 255, 255))
         self.scaled_background.blit(text, (50, 50))
 
-        text = font.render("a. Circuit A", True, (255, 255, 255))
+        text = font.render("a. Circuit A - Easy", True, (255, 255, 255))
         self.scaled_background.blit(text, (50, 100))
 
-        text = font.render("b. Circuit B", True, (255, 255, 255))
+        text = font.render("b. Circuit B - Medium", True, (255, 255, 255))
         self.scaled_background.blit(text, (50, 150))
 
-        text = font.render("c. Circuit C", True, (255, 255, 255))
+        text = font.render("c. Circuit C - Hard", True, (255, 255, 255))
         self.scaled_background.blit(text, (50, 200))
         
         text = font.render("Select number of laps (1-5)", True, (255, 255, 255))
         self.scaled_background.blit(text, (50, 350))
 
         if self.selected_circuit is not None:
-            text = font.render("Selected Circuit: " + str(self.selected_circuit), True, (255, 255, 255))
-            self.scaled_background.blit(text, (50, 250))
+            if self.selected_circuit == RACETRACK1:
+                text = font.render("Selected Circuit: A (Easy)", True, (255, 255, 255))
+                self.scaled_background.blit(text, (50, 250))
+            elif self.selected_circuit == RACETRACK3:
+                text = font.render("Selected Circuit: B - (Medium)", True, (255, 255, 255))
+                self.scaled_background.blit(text, (50, 250))
+            elif self.selected_circuit == RACETRACK2:
+                text = font.render("Selected Circuit: C - (Hard)", True, (255, 255, 255))
+                self.scaled_background.blit(text, (50, 250))
 
         if self.laps is not None:
             text = font.render("Number of laps selected: " +  str(self.laps), True, (255, 255, 255))
@@ -68,10 +75,10 @@ class Menu():
                     self.selected_circuit = RACETRACK1
                     print("Selected circuit: ", self.selected_circuit)
                     return self.selected_circuit
-                elif event.key == pygame.K_b:
+                elif event.key == pygame.K_c:
                     self.selected_circuit = RACETRACK2
                     return self.selected_circuit
-                elif event.key == pygame.K_c:
+                elif event.key == pygame.K_b:
                     self.selected_circuit = RACETRACK3
                     return self.selected_circuit
                 
