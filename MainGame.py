@@ -2,11 +2,11 @@ import pygame
 import numpy as np
 import math
 import os
-from Car import Car
+from car import Car
 from Player import Player
 from CollisionManager import CollisionManager
 from Menu import Menu
-from tkinter import messagebox
+
 
 pygame.init()
 
@@ -25,8 +25,8 @@ START = pygame.transform.scale(START_IMAGE, (LARGEUR, HAUTEUR))
 
 fontlapsP1P2 = pygame.font.Font(None, 20)
 
-lapsP1 = 0
-lapsP2 = 0
+
+offset_initial_position = 30
 
 ## Main game class
 
@@ -42,6 +42,8 @@ class MainGame():
         self.laps = None
         
         # Ingame components
+        self.initial_position = [0, 0]
+        
         self.car1 = Car(600, 244)
         self.car2 = Car(650, 244)
         
@@ -63,8 +65,13 @@ class MainGame():
             self.menu.display_menu()
             
             if self.menu.selected_circuit is None:
-                self.selected_circuit = self.menu.racetrack_input() 
-                #print("Selected circuit: ", self.selected_circuit)         
+                #print("Selected circuit: ", self.selected_circuit)    
+                self.selected_circuit = self.menu.racetrack_input()
+                self.initial_position = self.menu.initial_position
+                self.player1.car.position = [self.initial_position[0], self.initial_position[1] + offset_initial_position]
+                self.player2.car.position = [self.initial_position[0], self.initial_position[1]]
+
+                     
             
             if self.menu.laps is None:
                 self.laps = self.menu.select_laps()
@@ -155,7 +162,30 @@ class MainGame():
                 print("Collision P1 and P2")
                # Raise an exception to stop the game
                 raise Exception("Player 1 and Player 2 have collided")
+            
                     
+            
+            # Display the number of laps on the screen for each player
+            # P1 laps
+            print("Initial position: ", self.initial_position)
+            print(self.player1.car.position[0])
+            if self.player1.car.position[0] < self.initial_position[0] - offset_initial_position :
+                print("OK1")
+                if self.player1.car.position[0] > self.initial_position[0] :
+                    print("OK2") 
+                    self.lapsP1 += 1
+                    print("Laps P1: ", self.lapsP1)
+            lapsP1txt = fontlapsP1P2.render("Laps P1 : " + str(self.lapsP1), True, (255, 255, 255))
+            self.screen.blit(lapsP1txt, (5, 5))
+            
+            # P2 laps
+            if self.player2.car.position[0] < self.initial_position[0] - offset_initial_position :
+                if self.player2.car.position[0] > self.initial_position[0] : 
+                    self.lapsP2 += 1
+            lapsP2txt = fontlapsP1P2.render("Laps P2 : " + str(self.lapsP2), True, (255, 255, 255))
+            self.screen.blit(lapsP2txt, (5, 25))
+            
+            
             
             # FPS limit
             clock.tick(60)
@@ -166,13 +196,6 @@ class MainGame():
 
             # display race track on the screen with .blit()
             self.screen.blit((self.selected_circuit), (0, 0))
-            
-            # Display the number of laps on the screen for each player
-            lapsP1txt = fontlapsP1P2.render("Laps P1 : " + str(lapsP1), True, (255, 255, 255))
-            self.screen.blit(lapsP1txt, (5, 5))
-            
-            lapsP2txt = fontlapsP1P2.render("Laps P2 : " + str(lapsP2), True, (255, 255, 255))
-            self.screen.blit(lapsP2txt, (5, 25))
             
             # displays the car on the track
             new_image = pygame.transform.rotate(self.player1.car.image, self.player1.car.angle)

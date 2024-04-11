@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
 import os
-from Car import Car
+from car import Car
 
 
 class Player():

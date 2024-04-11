@@ -16,6 +16,7 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
     
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
+        
         ###### Car's image and mask ######
         self.image = pygame.transform.scale(CAR, (w * 0.05, h * 0.05))
         self.crash = pygame.transform.scale(CRASH, (w * 0.1, h * 0.1))

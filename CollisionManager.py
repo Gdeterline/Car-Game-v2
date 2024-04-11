@@ -1,6 +1,6 @@
 import pygame
 import math
-from Car import Car
+from car import Car
 
 
 # Mask color range
