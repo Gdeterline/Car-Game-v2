@@ -13,7 +13,6 @@ RACETRACK1 = pygame.transform.rotate(RACETRACK1, 180)
 RACETRACK1 = pygame.transform.scale(RACETRACK1, (1000, 700))
 RACETRACK2 = pygame.image.load(os.path.join(os.getcwd(), "./images/circuit2.png"))
 RACETRACK2 = pygame.transform.scale(RACETRACK2, (1000, 600))
-# Initial position 622, 244
 RACETRACK3 = pygame.image.load(os.path.join(os.getcwd(), "./images/rect_racetrack.jpg"))
 RACETRACK3 = pygame.transform.scale(RACETRACK3, (1000, 600))
 

@@ -25,7 +25,6 @@ START = pygame.transform.scale(START_IMAGE, (LARGEUR, HAUTEUR))
 
 fontlapsP1P2 = pygame.font.Font(None, 20)
 
-
 offset_initial_position = 30
 
 ## Main game class

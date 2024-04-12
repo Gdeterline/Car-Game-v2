@@ -9,7 +9,10 @@ COLOR_RANGE_END = (100, 255, 100)  # End color of the range (light green)
 
 
 ########## Collision Manager class ##########
-########## NEEDS TO BE WORKED ON ##########
+
+##### Need to check collisions in B racetrack. Check boundaries of the rotated racetrack image ######
+
+
 
 class CollisionManager():
     def __init__(self, car, racetrack_image):
