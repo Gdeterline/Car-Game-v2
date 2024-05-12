@@ -94,5 +94,5 @@ class Menu():
             if event.type == pygame.KEYDOWN:                
                 if pygame.K_1 <= event.key <= pygame.K_5:
                     self.laps = int(pygame.key.name(event.key))
-                    print("Laps: ", self.laps)
+                    #print("Laps: ", self.laps)
                     return self.laps   

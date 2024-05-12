@@ -4,6 +4,7 @@ import os
 from car import Car
 
 
+
 class Player():
     
     def __init__(self, car, controls):
