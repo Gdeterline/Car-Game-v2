@@ -110,4 +110,5 @@ Here's a breakdown of the code structure:
 - **check_boundary_collision()**: Checks if the car collides with the racetrack boundary.
 - **check_car_collisions()**: Checks for collisions between two cars.
 
-Have fun playing the game !
+
+# **Have fun playing the game !**
