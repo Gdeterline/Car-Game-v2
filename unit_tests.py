@@ -26,6 +26,9 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.player.car, self.car)
         self.assertEqual(self.player.controls['left'], pygame.K_LEFT)
         self.assertEqual(self.player.controls['right'], pygame.K_RIGHT)
+        self.assertEqual(self.player.controls['up'], pygame.K_UP)
+        self.assertEqual(self.player.controls['down'], pygame.K_DOWN)
+        self.assertEqual(self.player.controls['brake'], pygame.K_SPACE)
 
 class TestCollisionManager(unittest.TestCase):
     def setUp(self):
