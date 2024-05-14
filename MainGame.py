@@ -233,5 +233,5 @@ class MainGame():
 
             
 game = MainGame()
-game.run_menu()
+#game.run_menu()         ## Comment this for unit testing
 pygame.quit()
