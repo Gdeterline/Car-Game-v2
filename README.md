@@ -5,9 +5,12 @@
 This documentation provides an overview of the code structure, classes, functions, and their functionalities. The code consists of several modules/classes responsible for creating a simple racing game using the Pygame library in Python.
 
 ### Game Overview:
-Number of Players: The game supports two players competing against each other.
-Objective: Players race against each other to complete a set number of laps around the racetrack.
-Controls: Each player controls their respective car using a set of keys on the keyboard.
+
+- Number of Players: The game supports two players competing against each other.
+
+- Objective: Players race against each other to complete a set number of laps around the racetrack.
+
+- Controls: Each player controls their respective car using a set of keys on the keyboard.
 
 #### Player Controls:
 - Player 1 (Car 1):
