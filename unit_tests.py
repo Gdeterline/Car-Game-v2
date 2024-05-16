@@ -1,6 +1,5 @@
 import unittest
 import pygame
-import os
 from car import Car
 from Player import Player
 from CollisionManager import CollisionManager

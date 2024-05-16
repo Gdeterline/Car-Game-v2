@@ -8,6 +8,7 @@ from car import Car
 class Player():
     
     def __init__(self, car, controls):
+        pygame.init()
         self.car = car
         self.controls = controls
         

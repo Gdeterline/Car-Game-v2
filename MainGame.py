@@ -31,8 +31,13 @@ offset_initial_position = 30
 
 class MainGame():
     def __init__(self):
+        pygame.init()
         # Set up the screen
         self.screen = pygame.display.set_mode((LARGEUR, HAUTEUR))
+        
+        # Set up the music 
+        pygame.mixer.init()
+        pygame.mixer.music.load(os.path.join(os.getcwd(), "./sounds/TopGearMusic.mp3"))
         
         # Menu components
         self.menu = Menu(self.screen)
@@ -60,9 +65,11 @@ class MainGame():
         
         
 
-    def run_menu(self):
+    def run_menu(self, get_event=pygame.event.get):
         running = True
         while running:
+            
+            pygame.mixer.music.play(-1)
             
             self.menu.display_menu()
             
@@ -79,17 +86,7 @@ class MainGame():
                 self.laps = self.menu.select_laps()
                 #print("Number of laps selected: ", self.laps)
 
-            for event in pygame.event.get():
-                
-                if event.type == pygame.QUIT:
-                    running = False
-                    pygame.quit()
-                
-                elif event.type == pygame.KEYDOWN:
-                    
-                    if event.key == pygame.K_ESCAPE:
-                        running = False
-                        pygame.quit()
+
                         
             if self.selected_circuit is not None and self.laps is not None:
                 self.screen.blit(START, (0, 0))
@@ -98,6 +95,16 @@ class MainGame():
                 running = False
                 self.run_game()
             
+                
+            for event in get_event():    
+                if event.type == pygame.QUIT:
+                    running = False
+                    break
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                        break
+            
     
     def run_game(self):
         pygame.init()
@@ -105,31 +112,9 @@ class MainGame():
         running = True
         while running:
             
-            ## Check for events ##
-            for event in pygame.event.get():
-                    
-                if event.type == pygame.QUIT:
-                    running = False
-                    pygame.quit()
-                
-                elif event.type == pygame.KEYDOWN:
-                    
-                    if event.key == pygame.K_ESCAPE:
-                        running = False
-                        pygame.quit()
+            # FPS limit
+            clock.tick(60)
             
-            ## Check if a player has won ##
-            if self.lapsP1 == self.laps:
-                print("Player 1 wins")
-                running = False
-                pygame.quit()
-            elif self.lapsP2 == self.laps:
-                print("Player 2 wins")
-                running = False
-                pygame.quit()
-    
-            
-
             ## Update car accordingly to the player 1 inputs ## 
             self.player1.ingame_inputs()
             self.player1.car.update()
@@ -149,6 +134,17 @@ class MainGame():
             print("Position vector P2: ", self.player2.car.position)
             print()
             print("Angle P2: ", self.player2.car.angle) """
+            
+            
+            ## Check if a player has won ##
+            if self.lapsP1 == self.laps:
+                print("Player 1 wins")
+                running = False
+                break
+            elif self.lapsP2 == self.laps:
+                print("Player 2 wins")
+                running = False
+                break
             
             
             # Check for collisions
@@ -200,9 +196,6 @@ class MainGame():
                 self.lapsP2 += 1
                 self.x2 = 0
                 
-            
-            # FPS limit
-            clock.tick(60)
 
             # Clear the screen to erase the drag of the car 
             self.screen.fill((0, 0, 0))
@@ -230,8 +223,23 @@ class MainGame():
             # update the display
             pygame.display.flip()
             
+                        
+            ## Check for quiting events ##
+            for event in pygame.event.get():
+                    
+                if event.type == pygame.QUIT:
+                    running = False
+                    break
+                
+                elif event.type == pygame.KEYDOWN:
+                    
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                        break
+            
 
             
 game = MainGame()
-#game.run_menu()         ## Comment this for unit testing
+game.run_menu()         ## Comment this for unit/integration testing
+pygame.mixer.music.stop()
 pygame.quit()
