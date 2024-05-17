@@ -15,9 +15,10 @@ LARGEUR = 1000
 HAUTEUR = 600
 
 ## Load the car and the racetrack images ##
-CAR = pygame.image.load(os.path.join(os.getcwd(), "./images/car.png"))
-w = CAR.get_width()
-h = CAR.get_height()
+CAR1 = pygame.image.load(os.path.join(os.getcwd(), "./images/car.png"))
+CAR2 = pygame.image.load(os.path.join(os.getcwd(), "./images/car2.png"))
+w = CAR1.get_width()
+h = CAR1.get_height()
 
 
 START_IMAGE = pygame.image.load(os.path.join(os.getcwd(), "./images/start.png"))
@@ -48,8 +49,8 @@ class MainGame():
         # Ingame components
         self.initial_position = [0, 0]
         
-        self.car1 = Car(600, 244)
-        self.car2 = Car(650, 244)
+        self.car1 = Car(600, 244, CAR1)
+        self.car2 = Car(650, 244, CAR2)
         
         self.player1 = Player(self.car1, {'left': pygame.K_LEFT, 'right': pygame.K_RIGHT, 'up': pygame.K_UP, 'down': pygame.K_DOWN, 'brake': pygame.K_SPACE})
         self.player2 = Player(self.car2, {'left': pygame.K_q, 'right': pygame.K_d, 'up': pygame.K_z, 'down': pygame.K_s, 'brake': pygame.K_x})
