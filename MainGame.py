@@ -31,8 +31,13 @@ offset_initial_position = 30
 
 class MainGame():
     def __init__(self):
+        pygame.init()
         # Set up the screen
         self.screen = pygame.display.set_mode((LARGEUR, HAUTEUR))
+        
+        # Set up the music 
+        pygame.mixer.init()
+        pygame.mixer.music.load(os.path.join(os.getcwd(), "./sounds/TopGearMusic.mp3"))
         
         # Menu components
         self.menu = Menu(self.screen)
@@ -55,11 +60,16 @@ class MainGame():
         self.lapsP1 = 0
         self.lapsP2 = 0
         
+        self.x1 = 0
+        self.x2 = 0
+        
         
 
-    def run_menu(self):
+    def run_menu(self, get_event=pygame.event.get):
         running = True
         while running:
+            
+            pygame.mixer.music.play(-1)
             
             self.menu.display_menu()
             
@@ -76,17 +86,7 @@ class MainGame():
                 self.laps = self.menu.select_laps()
                 #print("Number of laps selected: ", self.laps)
 
-            for event in pygame.event.get():
-                
-                if event.type == pygame.QUIT:
-                    running = False
-                    pygame.quit()
-                
-                elif event.type == pygame.KEYDOWN:
-                    
-                    if event.key == pygame.K_ESCAPE:
-                        running = False
-                        pygame.quit()
+
                         
             if self.selected_circuit is not None and self.laps is not None:
                 self.screen.blit(START, (0, 0))
@@ -95,6 +95,16 @@ class MainGame():
                 running = False
                 self.run_game()
             
+                
+            for event in get_event():    
+                if event.type == pygame.QUIT:
+                    running = False
+                    break
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                        break
+            
     
     def run_game(self):
         pygame.init()
@@ -102,18 +112,10 @@ class MainGame():
         running = True
         while running:
             
-            for event in pygame.event.get():
-                
-                if event.type == pygame.QUIT:
-                    running = False
-                    pygame.quit()
-                
-                elif event.type == pygame.KEYDOWN:
-                    
-                    if event.key == pygame.K_ESCAPE:
-                        running = False
-                        pygame.quit()
-                
+            # FPS limit
+            clock.tick(60)
+            
+            ## Update car accordingly to the player 1 inputs ## 
             self.player1.ingame_inputs()
             self.player1.car.update()
             
@@ -123,6 +125,7 @@ class MainGame():
             print()
             print("Angle P1: ", self.player1.car.angle) """
             
+            ## Update car accordingly to the player 2 inputs ##
             self.player2.ingame_inputs()
             self.player2.car.update()
             
@@ -131,6 +134,17 @@ class MainGame():
             print("Position vector P2: ", self.player2.car.position)
             print()
             print("Angle P2: ", self.player2.car.angle) """
+            
+            
+            ## Check if a player has won ##
+            if self.lapsP1 == self.laps:
+                print("Player 1 wins")
+                running = False
+                break
+            elif self.lapsP2 == self.laps:
+                print("Player 2 wins")
+                running = False
+                break
             
             
             # Check for collisions
@@ -166,29 +180,22 @@ class MainGame():
             
             # Display the number of laps on the screen for each player
             # P1 laps
-            print("Initial position: ", self.initial_position)
-            print(self.player1.car.position[0])
             if self.player1.car.position[0] < self.initial_position[0] - offset_initial_position :
-                print("OK1")
-                if self.player1.car.position[0] > self.initial_position[0] :
-                    print("OK2") 
-                    self.lapsP1 += 1
-                    print("Laps P1: ", self.lapsP1)
-            lapsP1txt = fontlapsP1P2.render("Laps P1 : " + str(self.lapsP1), True, (255, 255, 255))
-            self.screen.blit(lapsP1txt, (5, 5))
+                self.x1 = 1
+                
+            if self.player1.car.position[0] > self.initial_position[0] and self.x1 == 1:
+                self.lapsP1 += 1
+                self.x1 = 0
+            
             
             # P2 laps
             if self.player2.car.position[0] < self.initial_position[0] - offset_initial_position :
-                if self.player2.car.position[0] > self.initial_position[0] : 
-                    self.lapsP2 += 1
-            lapsP2txt = fontlapsP1P2.render("Laps P2 : " + str(self.lapsP2), True, (255, 255, 255))
-            self.screen.blit(lapsP2txt, (5, 25))
+                self.x2 = 1        
             
-            
-            
-            # FPS limit
-            clock.tick(60)
-
+            if self.player2.car.position[0] > self.initial_position[0] and self.x2 == 1: 
+                self.lapsP2 += 1
+                self.x2 = 0
+                
 
             # Clear the screen to erase the drag of the car 
             self.screen.fill((0, 0, 0))
@@ -205,11 +212,34 @@ class MainGame():
             rect = new_image.get_rect(center=self.player2.car.position)
             self.screen.blit(new_image, rect)
             
+            
+            # Display the number of laps on the screen for each player
+            lapsP1txt = fontlapsP1P2.render("Laps P1 : " + str(self.lapsP1), True, (255, 255, 255))                       
+            lapsP2txt = fontlapsP1P2.render("Laps P2 : " + str(self.lapsP2), True, (255, 255, 255))
+            
+            self.screen.blit(lapsP1txt, (5, 5))
+            self.screen.blit(lapsP2txt, (5, 25))
+            
             # update the display
             pygame.display.flip()
+            
+                        
+            ## Check for quiting events ##
+            for event in pygame.event.get():
+                    
+                if event.type == pygame.QUIT:
+                    running = False
+                    break
+                
+                elif event.type == pygame.KEYDOWN:
+                    
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                        break
             
 
             
 game = MainGame()
-game.run_menu()
+game.run_menu()         ## Comment this for unit/integration testing
+pygame.mixer.music.stop()
 pygame.quit()

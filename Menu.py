@@ -7,6 +7,7 @@ from Player import Player
 from CollisionManager import CollisionManager
 
 pygame.init()
+pygame.font.init()
 
 RACETRACK1 = pygame.image.load(os.path.join(os.getcwd(), "./images/circuit.jpeg"))
 RACETRACK1 = pygame.transform.rotate(RACETRACK1, 180)
@@ -20,6 +21,8 @@ RACETRACK3 = pygame.transform.scale(RACETRACK3, (1000, 600))
 ## This class creates a menu that is used to select the racetrack and the number of laps to be played
 class Menu():
     def __init__(self, screen):
+        pygame.init()
+        pygame.font.init()
         self.screen = screen
         self.background = pygame.image.load(os.path.join(os.getcwd(), "./images/menu_background.webp"))
         self.scaled_background = pygame.transform.scale(self.background, (1000, 600))
@@ -94,5 +97,5 @@ class Menu():
             if event.type == pygame.KEYDOWN:                
                 if pygame.K_1 <= event.key <= pygame.K_5:
                     self.laps = int(pygame.key.name(event.key))
-                    print("Laps: ", self.laps)
+                    #print("Laps: ", self.laps)
                     return self.laps   
