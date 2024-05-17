@@ -240,6 +240,6 @@ class MainGame():
 
             
 game = MainGame()
-game.run_menu()         ## Comment this for unit/integration testing
+game.run_menu()         ## Comment this for unit testing
 pygame.mixer.music.stop()
 pygame.quit()

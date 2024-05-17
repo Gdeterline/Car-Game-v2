@@ -1,3 +1,6 @@
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import unittest
 import pygame
 from MainGame import MainGame
@@ -17,6 +20,7 @@ class TestMainGame(unittest.TestCase):
     def test_run_menu(self):
         self.game.menu.selected_circuit = self.game.menu.RACETRACK1
         self.game.menu.laps = 3
+        self.game.run_menu()
         self.assertEqual(self.game.selected_circuit, self.game.menu.RACETRACK1)
         self.assertEqual(self.game.laps, 3)
 

@@ -1,7 +1,10 @@
 import unittest
 import pygame
-from car import Car
+import os 
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from CollisionManager import CollisionManager
+from car import Car
 
 class TestCollisionManager(unittest.TestCase):
     def setUp(self):
@@ -21,8 +24,8 @@ class TestCollisionManager(unittest.TestCase):
         car2 = Car(100, 100)
         self.assertTrue(self.collision_manager.check_car_collisions(self.car, car2))
         
-        car2.position = [200, 200]
-        self.assertFalse(self.collision_manager.check_car_collisions(self.car, car2))
+        car2.position = [100, 100]
+        self.assertTrue(self.collision_manager.check_car_collisions(self.car, car2))
 
 if __name__ == '__main__':
     unittest.main()

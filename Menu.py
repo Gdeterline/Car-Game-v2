@@ -9,17 +9,19 @@ from CollisionManager import CollisionManager
 pygame.init()
 pygame.font.init()
 
-RACETRACK1 = pygame.image.load(os.path.join(os.getcwd(), "./images/circuit.jpeg"))
-RACETRACK1 = pygame.transform.rotate(RACETRACK1, 180)
-RACETRACK1 = pygame.transform.scale(RACETRACK1, (1000, 700))
-RACETRACK2 = pygame.image.load(os.path.join(os.getcwd(), "./images/circuit2.png"))
-RACETRACK2 = pygame.transform.scale(RACETRACK2, (1000, 600))
-RACETRACK3 = pygame.image.load(os.path.join(os.getcwd(), "./images/rect_racetrack.jpg"))
-RACETRACK3 = pygame.transform.scale(RACETRACK3, (1000, 600))
+
 
 
 ## This class creates a menu that is used to select the racetrack and the number of laps to be played
 class Menu():
+    RACETRACK1 = pygame.image.load(os.path.join(os.getcwd(), "./images/circuit.jpeg"))
+    RACETRACK1 = pygame.transform.rotate(RACETRACK1, 180)
+    RACETRACK1 = pygame.transform.scale(RACETRACK1, (1000, 700))
+    RACETRACK2 = pygame.image.load(os.path.join(os.getcwd(), "./images/circuit2.png"))
+    RACETRACK2 = pygame.transform.scale(RACETRACK2, (1000, 600))
+    RACETRACK3 = pygame.image.load(os.path.join(os.getcwd(), "./images/rect_racetrack.jpg"))
+    RACETRACK3 = pygame.transform.scale(RACETRACK3, (1000, 600))
+    
     def __init__(self, screen):
         pygame.init()
         pygame.font.init()
@@ -53,15 +55,15 @@ class Menu():
         self.scaled_background.blit(text, (50, 350))
 
         if self.selected_circuit is not None:
-            if self.selected_circuit == RACETRACK1:
+            if self.selected_circuit == self.RACETRACK1:
                 text = font.render("Selected Circuit: A (Easy)", True, (255, 255, 255))
                 self.scaled_background.blit(text, (50, 250))
                 
-            elif self.selected_circuit == RACETRACK3:
+            elif self.selected_circuit == self.RACETRACK3:
                 text = font.render("Selected Circuit: B - (Medium)", True, (255, 255, 255))
                 self.scaled_background.blit(text, (50, 250))
                 
-            elif self.selected_circuit == RACETRACK2:
+            elif self.selected_circuit == self.RACETRACK2:
                 text = font.render("Selected Circuit: C - (Hard)", True, (255, 255, 255))
                 self.scaled_background.blit(text, (50, 250))
                 
@@ -78,16 +80,16 @@ class Menu():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
-                    self.selected_circuit = RACETRACK1
+                    self.selected_circuit = self.RACETRACK1
                     self.initial_position = (454, 134) # Initial position for the lower car in circuit A
                     #print("Selected circuit: ", self.selected_circuit)
                     return self.selected_circuit
                 elif event.key == pygame.K_c:
-                    self.selected_circuit = RACETRACK2
+                    self.selected_circuit = self.RACETRACK2
                     self.initial_position = (624, 235) # Initial position for the lower car in circuit C
                     return self.selected_circuit
                 elif event.key == pygame.K_b:
-                    self.selected_circuit = RACETRACK3
+                    self.selected_circuit = self.RACETRACK3
                     self.initial_position = (502, 91) # Initial position for the lower car in circuit B
                     return self.selected_circuit
                 
