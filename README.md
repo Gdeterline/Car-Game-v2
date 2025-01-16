@@ -1,5 +1,7 @@
 # Car Game Documentation
 
+The idea of this project is to implement deep reinforcement learning to the care game developed in 2023/2024.
+
 ## 1. Introduction:
 
 This documentation provides an overview of the code structure, classes, functions, and their functionalities. The code consists of several modules/classes responsible for creating a simple racing game using the Pygame library in Python.
