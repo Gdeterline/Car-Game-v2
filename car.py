@@ -78,5 +78,21 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         self.mask = pygame.mask.from_surface(self.image)
         #print("Position vector: ", self.position)
         
+    def get_state(self):
+        return [self.position, self.velocity, self.angle]
+    
+    def apply_action(self, action):
+        if action == 'accelerate':
+            self.accelerate()
+        elif action == 'decelerate':
+            self.decelerate
+        elif action == 'brake':
+            self.brake
+        elif action == 'turn_left':
+            self.turn_left
+        elif action == 'turn_right':
+            self.turn_right
+            
+            
         
         
