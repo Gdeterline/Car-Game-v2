@@ -15,7 +15,7 @@ class DRLEnvironment():
         self.collision_manager = CollisionManager(self.car, self.racetrack)
         
     def reset(self):
-        self.car.set_state(position=[self.xinit, self.yinit], velocity=0, angle=0)
+        self.car.set_state(self.xinit, self.yinit, velocity=0, angle=0)
         return self.car.get_state()
         
     def step(self, action):
