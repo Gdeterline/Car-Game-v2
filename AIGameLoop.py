@@ -43,7 +43,11 @@ class AIGameLoop():
         self.car1 = Car(self.xinit, self.xinit, CAR1)   # Probably don't need the x and y at first if we have the set_state method
         
         self.car1.set_state(self.xinit, self.yinit, 0, 0)
+        
         self.collision_manager1 = CollisionManager(self.car1, self.selected_circuit)
+        
+    def reset_car_state(self):
+        self.car1.position = [self.xinit, self.yinit, 0, 0]
         
     def run_game(self):
         pygame.init()
