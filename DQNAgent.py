@@ -21,14 +21,14 @@ class DQNAgent():
 
     def _build_model(self):
         model = models.Sequential()
-        model.add(layers.Dense(24, input_dim=self.state_size, activation='relu'))
-        model.add(layers.Dense(24, activation='relu'))
+        model.add(layers.Dense(64, input_dim=self.state_size, activation='relu'))
+        model.add(layers.Dense(32, activation='relu'))
         model.add(layers.Dense(self.action_size, activation='linear'))
         model.compile(loss='mse', optimizer=optimizers.Adam(learning_rate=self.learning_rate))
         return model
     
-    def remember(self, state, action, reward, next_state, done):
-        self.memory.append((state, action, reward, next_state, done))
+    def remember(self, state, action, reward, next_state, over):
+        self.memory.append((state, action, reward, next_state, over))
             
     def act(self, state):
             # Epsilon-greedy policy
@@ -42,9 +42,9 @@ class DQNAgent():
         if len(self.memory) < self.batch_size:
             return
         minibatch = random.sample(self.memory, self.batch_size)
-        for state, action, reward, next_state, done in minibatch:
+        for state, action, reward, next_state, over in minibatch:
             target = reward
-            if not done:
+            if not over:
                 target += self.gamma * np.amax(self.model.predict(next_state)[0])
             target_f = self.model.predict(state)
             target_f[0][action] = target

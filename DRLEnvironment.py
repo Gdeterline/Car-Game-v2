@@ -20,13 +20,13 @@ class DRLEnvironment():
         
     def step(self, action):
         self.car.apply_action(action)
-        collision = self.collision_manager.check_boundary_collision(self.car, self.racetrack)
+        over = self.collision_manager.check_boundary_collision(self.car, self.racetrack)    # Over flag
         
-        if collision:
+        if over:
             self.reward -= 100
         else:
             self.reward += 1
         
         next_state = self.car.get_state()
         
-        return next_state, self.reward, collision
+        return next_state, self.reward, over
