@@ -32,6 +32,8 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         # Car's angle
         self.angle = 0
         
+        self.state = [self.position, self.velocity, self.angle]
+        
         
     ####### Car's methods - Car Physics #######
         
@@ -55,10 +57,12 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
             self.angle += 2
         
     def accelerate(self):
-        self.velocity += 0.1
+        if self.velocity <= 5:
+            self.velocity += 0.1
         
     def decelerate(self):
-        self.velocity -= 0.1  
+        if self.velocity >= -2:
+            self.velocity -= 0.1  
         
     def brake(self):
         if self.velocity >= 0.2:
@@ -77,6 +81,28 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         self.rect = self.image.get_rect(center=(self.position[0], self.position[1]))
         self.mask = pygame.mask.from_surface(self.image)
         #print("Position vector: ", self.position)
+    
+    def set_state(self, x, y, velocity, angle):
+        self.state = [[x, y], velocity, angle]
         
+    def get_state(self):
+        return self.state
+    
+    def apply_action(self, action):
+        # The values attributed to each action are arbitrary - the model just learns and goes on with the values
+        if action == '0':   # accelerate
+            self.accelerate()
+        elif action == '1': # decelerate
+            self.decelerate
+        elif action == '2': # brake
+            self.brake
+        elif action == '3': # turn left
+            self.turn_left
+        elif action == '4': # turn right
+            self.turn_right
+        else:
+            return False
+            
+            
         
         
