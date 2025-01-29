@@ -1,4 +1,10 @@
-# Car Game Documentation
+# Car Game V2 Documentation
+
+## Device Setup
+
+\[To Complete\] (import...)
+
+## 1. Car Game V2 Introduction
 
 This project will be divided into three parts.
 
@@ -8,7 +14,7 @@ This project will be divided into three parts.
 
 # I. Multiplayer Game <a name="Multiplayer_Game"></a>
 
-## 1. Introduction:
+## 1. Introduction
 
 This documentation provides an overview of the code structure, classes, functions, and their functionalities. The code consists of several modules/classes responsible for creating a simple racing game using the Pygame library in Python.
 
@@ -152,3 +158,13 @@ We will develop this functionnality in several steps.
     - Add images (track color and details, track image, car images, etc.)
 
 # III. Self Driving Car - Reinforcement Learning Method <a name="RL"></a>
+
+Deep reinforcement learning consists in the fusion of two major components : 
+- Deep learning - DL consists in making predictions from large amounts of data, using neural networks.
+- Reinforcement learning - RL consists in learning through experience. The idea is to associate rewards/penalties to actions, and seek to maximise cumulative rewards.
+
+\[To Complete\]
+
+### Component 1 - Deep Learning
+
+To implement the neural networks we will use in this project, we will use the Keras framework.
