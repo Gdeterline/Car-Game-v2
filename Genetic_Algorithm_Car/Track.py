@@ -9,6 +9,7 @@ class Track():
             self.surface.fill(background_color)
             self.track_color = track_color
             self.brush_size = brush_size
+            self.starting_position = []
 
 
     def user_track_drawing(self):
@@ -20,3 +21,7 @@ class Track():
             pygame.display.set_caption("")
 
 
+    def user_track_starting_position(self):
+         if pygame.mouse.get_pressed()[0]:
+            self.starting_position = pygame.mouse.get_pos()
+            pygame.display.set_caption("Starting Position Set")

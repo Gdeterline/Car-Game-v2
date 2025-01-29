@@ -4,6 +4,13 @@ from Colors import Color
 
 pygame.init()
 
+font = pygame.font.SysFont("Calibri", 18)
+txtsurf1 = font.render("Left click to draw the track in white", True, Color.WHITE)
+txtsurf2 = font.render("Right click to erase track marks", True, Color.WHITE)
+txtsurf3 = font.render("Press s key to save the track", True, Color.WHITE)
+txtsurf4 = font.render("Press Return to place Car Starting Point", True, Color.WHITE)
+txtsurf5 = font.render("Left click to draw the track in white", True, Color.WHITE)
+
 #######################   Testing Racetrack drawing functionnality   #######################
 #######################   Works just as expected - Good news!   ############################
 
@@ -33,16 +40,14 @@ class AIMainLoop():
                     elif event.key == pygame.K_s:
                         pygame.image.save(self.track.surface, "./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
                         pygame.display.set_caption("Track Saved")
+                    elif event.key == pygame.K_RETURN:
+                        track_running = False
+                        self.MainLoop()
 
-            font = pygame.font.SysFont("Calibri", 18)
-            txtsurf1 = font.render("Left click to draw the track in white", True, Color.WHITE)
-            txtsurf2 = font.render("Right click to erase track marks", True, Color.WHITE)
-            txtsurf3 = font.render("Press s key to save the track", True, Color.WHITE)
+
             self.track.surface.blit(txtsurf1,(10, txtsurf1.get_height() // 2))
             self.track.surface.blit(txtsurf2,(10, txtsurf1.get_height() // 2 + 20))
             self.track.surface.blit(txtsurf3,(10, txtsurf1.get_height() // 2 + 40))
-
-            txtsurf4 = font.render("Press Return to place Car Starting Point", True, Color.WHITE)
             self.track.surface.blit(txtsurf4,(self.track.width - txtsurf4.get_width() // 2 - 150, txtsurf4.get_height() // 2))
 
 
@@ -55,8 +60,35 @@ class AIMainLoop():
         """
         MainLoop function is in charge of the driving simulation itself
         """
-        pass
+        running = True
+        while running:
 
+            clock = pygame.time.Clock()
+
+            for event in pygame.event.get():    
+                if event.type == pygame.QUIT:
+                    track_running = False
+                    break
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        track_running = False
+                        break
+
+            self.track.surface.blit(txtsurf5,(10, txtsurf5.get_height() // 2))
+
+
+            self.track.user_track_starting_position()
+            
+            """
+            To debug starting position - works just fine
+
+            if self.track.starting_position != []:
+                print(self.track.starting_position)
+            """
+            
+            pygame.display.flip()
+
+            clock.tick(60)
 
 
 loop = AIMainLoop()
