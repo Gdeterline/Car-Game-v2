@@ -77,7 +77,7 @@ class AIMainLoop():
             self.track.surface.blit(txtsurf5,(10, txtsurf5.get_height() // 2))
 
 
-            self.track.user_track_starting_position()
+
             
             """
             To debug starting position - works just fine
@@ -85,7 +85,12 @@ class AIMainLoop():
             if self.track.starting_position != []:
                 print(self.track.starting_position)
             """
-            
+            """
+            Need to debug starting line - three clicks then bugs
+            self.track.user_track_starting_line()
+            """
+
+
             pygame.display.flip()
 
             clock.tick(60)
