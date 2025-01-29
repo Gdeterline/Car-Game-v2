@@ -33,7 +33,6 @@ class AIMainLoop():
                     elif event.key == pygame.K_s:
                         pygame.image.save(self.track.surface, "./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
                         pygame.display.set_caption("Track Saved")
-                        print("Track Saved")
 
             font = pygame.font.SysFont("Calibri", 18)
             txtsurf1 = font.render("Left click to draw the track in white", True, Color.WHITE)
