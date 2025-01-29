@@ -32,7 +32,20 @@ class AIMainLoop():
                         break
                     elif event.key == pygame.K_s:
                         pygame.image.save(self.track.surface, "./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
+                        pygame.display.set_caption("Track Saved")
                         print("Track Saved")
+
+            font = pygame.font.SysFont("Calibri", 18)
+            txtsurf1 = font.render("Left click to draw the track in white", True, Color.WHITE)
+            txtsurf2 = font.render("Right click to erase track marks", True, Color.WHITE)
+            txtsurf3 = font.render("Press s key to save the track", True, Color.WHITE)
+            self.track.surface.blit(txtsurf1,(10, txtsurf1.get_height() // 2))
+            self.track.surface.blit(txtsurf2,(10, txtsurf1.get_height() // 2 + 20))
+            self.track.surface.blit(txtsurf3,(10, txtsurf1.get_height() // 2 + 40))
+
+            txtsurf4 = font.render("Press Return to place Car Starting Point", True, Color.WHITE)
+            self.track.surface.blit(txtsurf4,(self.track.width - txtsurf4.get_width() // 2 - 150, txtsurf4.get_height() // 2))
+
 
             self.track.user_track_drawing()
             pygame.display.flip()
