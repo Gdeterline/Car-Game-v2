@@ -1,6 +1,12 @@
 # Car Game Documentation
 
-The idea of this project is to implement deep reinforcement learning to the care game developed in 2023/2024.
+This project will be divided into three parts.
+
+- [I. Multiplayer Game](#Multiplayer_Game)
+- [II. Self Driving Car - Genetic Algorithm Method](#GA)
+- [III. Self Driving Car - Reinforcement Learning Method](#RL)
+
+# I. Multiplayer Game <a name="Multiplayer_Game"></a>
 
 ## 1. Introduction:
 
@@ -117,3 +123,32 @@ Here's a breakdown of the code structure:
 
 
 # **Have fun playing the game !**
+
+# II. Self Driving Car - Genetic Algorithm Method <a name="GA"></a>
+
+## 1. Introduction
+
+Genetic Algorithms are part of what we call evolutionary algorithms. The concept of GAs comes from the observation over time - and especially of natural selection and genetics.
+To quote Geeks for Geeks, genetic algorithms simulate the process of natural selection which means those species that can adapt to changes in their environment can survive and reproduce and go to the next generation. In simple words, they simulate “survival of the fittest”.
+
+The aim of this subproject is to implement such an algorithm, in order to create a self driving car, against which the player can play.
+
+## 2. Development phases
+
+We will develop this functionnality in several steps.
+
+- **GA V1**
+    - Develop Track Drawing Functionnality (addition to the initial project - fun to do on the player side, good for practice on my side): Once we have one trakc, it should be slightly simpler to handle collisions, as at first, the track should be very simple (black track on a white screen)
+    - Modelise the car by a rectangle (PyGame Rect) - Prototyping stage
+    - Develop some car features and functions (Accelerating, Turning, etc.)
+    - Develop the Collision Detection functionnality
+    - Develop, then draw, the distance sensors
+
+- **GA V1.1**
+    - Develop the genetic aspect of the project - genomes, NEAT, etc.
+
+- **GA V2** -
+    - Add extra functionnalities
+    - Add images (track color and details, track image, car images, etc.)
+
+# III. Self Driving Car - Reinforcement Learning Method <a name="RL"></a>
