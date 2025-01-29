@@ -6,22 +6,15 @@
 
 ## 1. Car Game V2 Introduction
 
-The idea of this project is to implement deep reinforcement learning to the care game developed in 2023/2024.
-Deep reinforcement learning consists in the fusion of two major components : 
-- Deep learning - DL consists in making predictions from large amounts of data, using neural networks.
-- Reinforcement learning - RL consists in learning through experience. The idea is to associate rewards/penalties to actions, and seek to maximise cumulative rewards.
+This project will be divided into three parts.
 
-\[To Complete\]
+- [I. Multiplayer Game](#Multiplayer_Game)
+- [II. Self Driving Car - Genetic Algorithm Method](#GA)
+- [III. Self Driving Car - Reinforcement Learning Method](#RL)
 
-### Component 1 - Deep Learning
+# I. Multiplayer Game <a name="Multiplayer_Game"></a>
 
-To implement the neural networks we will use in this project, we will use the Keras framework.
-
-
-  
-
-
-## 2. Car Game V1 Introduction:
+## 1. Introduction
 
 This documentation provides an overview of the code structure, classes, functions, and their functionalities. The code consists of several modules/classes responsible for creating a simple racing game using the Pygame library in Python.
 
@@ -136,3 +129,42 @@ Here's a breakdown of the code structure:
 
 
 # **Have fun playing the game !**
+
+# II. Self Driving Car - Genetic Algorithm Method <a name="GA"></a>
+
+## 1. Introduction
+
+Genetic Algorithms are part of what we call evolutionary algorithms. The concept of GAs comes from the observation over time - and especially of natural selection and genetics.
+To quote Geeks for Geeks, genetic algorithms simulate the process of natural selection which means those species that can adapt to changes in their environment can survive and reproduce and go to the next generation. In simple words, they simulate “survival of the fittest”.
+
+The aim of this subproject is to implement such an algorithm, in order to create a self driving car, against which the player can play.
+
+## 2. Development phases
+
+We will develop this functionnality in several steps.
+
+- **GA V1**
+    - Develop Track Drawing Functionnality (addition to the initial project - fun to do on the player side, good for practice on my side): Once we have one trakc, it should be slightly simpler to handle collisions, as at first, the track should be very simple (black track on a white screen)
+    - Modelise the car by a rectangle (PyGame Rect) - Prototyping stage
+    - Develop some car features and functions (Accelerating, Turning, etc.)
+    - Develop the Collision Detection functionnality
+    - Develop, then draw, the distance sensors
+
+- **GA V1.1**
+    - Develop the genetic aspect of the project - genomes, NEAT, etc.
+
+- **GA V2** -
+    - Add extra functionnalities
+    - Add images (track color and details, track image, car images, etc.)
+
+# III. Self Driving Car - Reinforcement Learning Method <a name="RL"></a>
+
+Deep reinforcement learning consists in the fusion of two major components : 
+- Deep learning - DL consists in making predictions from large amounts of data, using neural networks.
+- Reinforcement learning - RL consists in learning through experience. The idea is to associate rewards/penalties to actions, and seek to maximise cumulative rewards.
+
+\[To Complete\]
+
+### Component 1 - Deep Learning
+
+To implement the neural networks we will use in this project, we will use the Keras framework.
