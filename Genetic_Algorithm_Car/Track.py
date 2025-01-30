@@ -12,8 +12,10 @@ class Track():
             self.track_color = track_color
             self.brush_size = brush_size
             self.starting_position = []
-            self.starting_line = []
+            self.pos1 = tuple
+            self.pos2 = tuple
             self.click = 0
+
 
     def user_track_drawing(self):
         if pygame.mouse.get_pressed()[0]:
@@ -36,10 +38,28 @@ class Track():
 
 
     def user_track_starting_line(self):
-        while self.click < 2 :
-            if pygame.mouse.get_pressed()[0]:
-                self.starting_line.append(pygame.mouse.get_pos())
-                self.click += 1
-        pygame.draw.line(self.surface, Color.RED, start_pos=self.starting_line[0], end_pos=self.starting_line[1])
+        if pygame.mouse.get_pressed()[0]:
+            pygame.draw.circle(self.surface, Color.RED, pygame.mouse.get_pos(), 2)
+            self.pos1 = pygame.mouse.get_pos()
+        elif pygame.mouse.get_pressed()[2]:
+            pygame.draw.circle(self.surface, Color.RED, pygame.mouse.get_pos(), 2)
+            self.pos2 = pygame.mouse.get_pos()
+            pygame.draw.line(self.surface, Color.RED, start_pos=self.pos1, end_pos=self.pos2, width=2)
+            self.starting_position = tuple((self.pos1[0] - self.pos2[0], self.pos1[1] - self.pos2[1]))
+            print(self.starting_position)
+            pygame.draw.circle(self.surface, Color.BLUE, self.starting_position, 2)
+            return
 
+
+            """
+        if pygame.mouse.get_pressed()[0]:
+            self.starting_line.append(pygame.mouse.get_pos())
+            pygame.draw.circle(self.surface, Color.RED, pygame.mouse.get_pos(), 2)
+
+        if len(self.starting_line) == 2:
+            pygame.draw.line(self.surface, Color.RED, start_pos=self.starting_line[0], end_pos=self.starting_line[1], width=2)
+            self.starting_position = tuple((self.starting_line[0][1] - self.starting_line[0][0], self.starting_line[1][1] - self.starting_line[1][0]))
+            pygame.draw.circle(self.surface, Color.BLUE, self.starting_position, 2)
+            print("Starting Line placed")
+            """
             

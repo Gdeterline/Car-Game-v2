@@ -42,6 +42,7 @@ class AIMainLoop():
                         pygame.display.set_caption("Track Saved")
                     elif event.key == pygame.K_RETURN:
                         track_running = False
+                        pygame.display.set_caption("Placing Starting Line")
                         self.MainLoop()
 
 
@@ -75,22 +76,16 @@ class AIMainLoop():
                         break
 
             self.track.surface.blit(txtsurf5,(10, txtsurf5.get_height() // 2))
-
-
-
             
             """
-            To debug starting position - works just fine
+            # To debug starting position - works just fine
 
             if self.track.starting_position != []:
                 print(self.track.starting_position)
             """
-            """
-            Need to debug starting line - three clicks then bugs
+            
+            # Need to debug starting line - three clicks then bugs
             self.track.user_track_starting_line()
-            """
-
-
             pygame.display.flip()
 
             clock.tick(60)
