@@ -51,10 +51,8 @@ class Track():
     def blit_test_starting_line(self):
         txtsurf5 = font.render("Left click to place first point of the starting line", True, Color.WHITE)
         txtsurf6 = font.render("Right click to place second point of the starting line", True, Color.WHITE)
-        txtsurf4 = font.render("PRESS RETURN TO SAVE TRACK AND BEGIN SIMULATION", True, Color.WHITE)
         self.surface.blit(txtsurf5,(10, txtsurf5.get_height() // 2))
         self.surface.blit(txtsurf6,(10, txtsurf5.get_height() // 2 + 20))
-        self.surface.blit(txtsurf4,(self.width - txtsurf4.get_width() // 2 - 220, txtsurf4.get_height() // 2))
 
     def user_track_starting_line(self):
         if pygame.mouse.get_pressed()[0]:

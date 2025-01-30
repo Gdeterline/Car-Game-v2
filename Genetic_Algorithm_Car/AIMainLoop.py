@@ -74,8 +74,7 @@ class AIMainLoop():
                 self.track.surface.fill(Color.BLACK, self.instruction_bar)
                 pygame.image.save(self.track.surface, "./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
                 pygame.display.set_caption("Track Saved")
-                pygame.time.wait(500)
-                pygame.display.set_caption("Begin simulation")
+                pygame.display.flip()
                 self.MainLoop()
 
             pygame.display.flip()
@@ -89,10 +88,30 @@ class AIMainLoop():
 
         self.selected_circuit = pygame.image.load("./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
         self.car.position = [self.track.user_starting_position()[0] - self.car.CAR_WIDTH/2, self.track.user_starting_position()[1] - self.car.CAR_HEIGHT/2]
+        self.track.surface.fill((0, 0, 0))
+        self.track.surface.blit((self.selected_circuit), (0, 0))
+        self.track.surface.blit(self.car.sprite, self.car.position)
 
-        running = True
+
+        running = False
+        # Press enter to begin simulation
+        begin = True
+        while begin:
+            pygame.display.set_caption("Press enter to begin simulation")
+            for event in pygame.event.get():    
+                if event.type == pygame.QUIT:
+                    begin = False
+                    running = False
+                    break
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        begin = False
+                        running = True
+                        pygame.display.set_caption("Simulation")
+                        break
+
         while running:
-
+            
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     running = False
@@ -102,12 +121,16 @@ class AIMainLoop():
                         running = False
                         break
                     """
-                    Debugging purposes - check if car position is well adjusted
+                    Debugging purposes - check if car position is well adjusted - OK
                     elif event.key == pygame.K_RETURN:
                         self.car.position = self.car.update_car_position_test()
                     """
 
 
+            # Test to ensure car moves correctly
+            self.car.velocity = 1
+            self.car.angle = 1
+            self.car.move()
 
             self.track.surface.fill((0, 0, 0))
             self.track.surface.blit((self.selected_circuit), (0, 0))
