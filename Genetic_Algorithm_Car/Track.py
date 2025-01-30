@@ -13,9 +13,9 @@ class Track():
             self.surface.fill(background_color)
             self.track_color = track_color
             self.brush_size = brush_size
-            self.pos1 = tuple
-            self.pos2 = tuple
-            self.starting_position = tuple
+            self.pos1 = []
+            self.pos2 = []
+            self.starting_position = []
             self.spos1 = 0
             self.spos2 = 0
 
@@ -59,21 +59,16 @@ class Track():
     def user_track_starting_line(self):
         if pygame.mouse.get_pressed()[0]:
             pygame.draw.circle(self.surface, Color.RED, pygame.mouse.get_pos(), 2)
-            self.pos1 = pygame.mouse.get_pos()
+            self.pos1 = [pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]]
         elif pygame.mouse.get_pressed()[2]:
             pygame.draw.circle(self.surface, Color.RED, pygame.mouse.get_pos(), 2)
-            self.pos2 = pygame.mouse.get_pos()
+            self.pos2 = [pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]]
             pygame.draw.line(self.surface, Color.RED, start_pos=self.pos1, end_pos=self.pos2, width=2)
             return True
 
     def user_starting_position(self):
         self.spos1 = (self.pos1[0] + self.pos2[0])/2
-        print(type(self.spos1))
         self.spos2 = (self.pos1[1] + self.pos2[1])/2
-        print(type(self.spos2))
-        self.starting_position = (self.spos1, self.spos2)
+        self.starting_position = [self.spos1, self.spos2]
         pygame.draw.circle(self.surface, Color.BLUE, self.starting_position, 2)
-
-
-
-            
+        return self.starting_position

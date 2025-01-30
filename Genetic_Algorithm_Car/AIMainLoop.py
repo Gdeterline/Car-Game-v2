@@ -46,8 +46,7 @@ class AIMainLoop():
             self.track.blit_text_track_drawing()
             self.track.user_track_drawing()
             pygame.display.flip()
-
-            clock.tick(60)
+            clock.tick(100)
 
     def StartingPosLoop(self):
         """
@@ -66,24 +65,20 @@ class AIMainLoop():
                     if event.key == pygame.K_ESCAPE:
                         running = False
                         break
-                    elif event.key == pygame.K_RETURN:
-                        running = False
-                        self.track.surface.fill(Color.BLACK, self.instruction_bar)
-                        pygame.image.save(self.track.surface, "./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
-                        pygame.display.set_caption("Track Saved")
-                        pygame.time.wait(500)
-                        pygame.display.set_caption("Begin simulation")
-                        self.MainLoop()
-
 
             self.track.separation_line()
             self.track.blit_test_starting_line()
             
             if self.track.user_track_starting_line() == True:
-                self.track.user_starting_position()
+                running = False
+                self.track.surface.fill(Color.BLACK, self.instruction_bar)
+                pygame.image.save(self.track.surface, "./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
+                pygame.display.set_caption("Track Saved")
+                pygame.time.wait(500)
+                pygame.display.set_caption("Begin simulation")
+                self.MainLoop()
 
             pygame.display.flip()
-
             clock.tick(60)
 
 
@@ -93,6 +88,7 @@ class AIMainLoop():
         """
 
         self.selected_circuit = pygame.image.load("./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
+        self.car.position = [self.track.user_starting_position()[0] - self.car.CAR_WIDTH/2, self.track.user_starting_position()[1] - self.car.CAR_HEIGHT/2]
 
         running = True
         while running:
@@ -105,12 +101,21 @@ class AIMainLoop():
                     if event.key == pygame.K_ESCAPE:
                         running = False
                         break
+                    """
+                    Debugging purposes - check if car position is well adjusted
+                    elif event.key == pygame.K_RETURN:
+                        self.car.position = self.car.update_car_position_test()
+                    """
+
+
 
             self.track.surface.fill((0, 0, 0))
             self.track.surface.blit((self.selected_circuit), (0, 0))
 
-            # if self.car.alive:
-            #     self.track.surface.blit(self.car.sprite, self.car.position)
+            if self.car.alive:
+                self.track.surface.blit(self.car.sprite, self.car.position)
+
+            
 
             pygame.display.flip()
 
@@ -118,3 +123,4 @@ class AIMainLoop():
 
 loop = AIMainLoop()
 loop.TrackLoop() # To avoid having to build the track every time ^^
+
