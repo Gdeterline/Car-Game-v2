@@ -126,7 +126,6 @@ class AIMainLoop():
                         self.car.position = self.car.update_car_position_test()
                     """
 
-
             # Test to ensure car moves correctly
             self.car.velocity = 1
             self.car.angle = 1
