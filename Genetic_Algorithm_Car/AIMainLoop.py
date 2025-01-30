@@ -2,6 +2,7 @@ import os
 import pygame
 from Track import Track
 from Colors import Color
+from Car import Car
 
 pygame.init()
 
@@ -16,6 +17,7 @@ class AIMainLoop():
         self.track = Track(width=1200, height=800, brush_size=40, background_color=Color.BLACK, track_color=Color.WHITE)
         self.track.surface = pygame.display.set_mode((self.track.width, self.track.height))
         self.instruction_bar = pygame.Rect(0, 0, self.track.width, 80)
+        self.car = Car(self.track.starting_position)
 
     def TrackLoop(self):
         """
@@ -80,6 +82,8 @@ class AIMainLoop():
             if self.track.user_track_starting_line() == True:
                 self.track.user_starting_position()
 
+            print(type(self.track.starting_position))
+
             pygame.display.flip()
 
             clock.tick(60)
@@ -89,6 +93,9 @@ class AIMainLoop():
         """
         MainLoop function is in charge of the Self Driving Car simulation
         """
+
+        self.selected_circuit = pygame.image.load("./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
+
         running = True
         while running:
 
@@ -101,13 +108,15 @@ class AIMainLoop():
                         running = False
                         break
 
-            self.selected_circuit = pygame.image.load("./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
             self.track.surface.fill((0, 0, 0))
-            self.track.surface.blit((self.selected_circuit), (0, 0))   
+            self.track.surface.blit((self.selected_circuit), (0, 0))
+
+            # if self.car.alive:
+            #     self.track.surface.blit(self.car.sprite, self.car.position)
 
             pygame.display.flip()
 
 
 
 loop = AIMainLoop()
-loop.MainLoop() # To avoid having to build the track every time ^^
+loop.StartingPosLoop() # To avoid having to build the track every time ^^
