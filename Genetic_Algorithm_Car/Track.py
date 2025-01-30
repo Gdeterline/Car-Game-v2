@@ -68,8 +68,10 @@ class Track():
 
     def user_starting_position(self):
         self.spos1 = (self.pos1[0] + self.pos2[0])/2
+        print(type(self.spos1))
         self.spos2 = (self.pos1[1] + self.pos2[1])/2
-        self.starting_position = tuple(self.spos1, self.spos2)
+        print(type(self.spos2))
+        self.starting_position = (self.spos1, self.spos2)
         pygame.draw.circle(self.surface, Color.BLUE, self.starting_position, 2)
 
 

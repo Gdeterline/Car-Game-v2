@@ -82,8 +82,6 @@ class AIMainLoop():
             if self.track.user_track_starting_line() == True:
                 self.track.user_starting_position()
 
-            print(type(self.track.starting_position))
-
             pygame.display.flip()
 
             clock.tick(60)
@@ -119,4 +117,4 @@ class AIMainLoop():
 
 
 loop = AIMainLoop()
-loop.StartingPosLoop() # To avoid having to build the track every time ^^
+loop.TrackLoop() # To avoid having to build the track every time ^^
