@@ -10,7 +10,8 @@ class Track():
             self.width = width
             self.height = height
             self.surface = pygame.Surface((width, height))
-            self.surface.fill(background_color)
+            self.background_color = background_color
+            self.surface.fill(self.background_color)
             self.track_color = track_color
             self.brush_size = brush_size
             self.pos1 = []

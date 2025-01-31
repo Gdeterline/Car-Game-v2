@@ -80,17 +80,38 @@ class AIMainLoop():
             pygame.display.flip()
             clock.tick(60)
 
+    def get_starting_position(self):
+        return self.track.user_starting_position()
+    
+    def get_screen(self) -> pygame.surface.Surface:
+        return self.track.surface
+    
+    def get_track_background_color(self):
+        return self.track.track_color, self.track.background_color
+
+
+
+class MainLoop():
+    def __init__(self):
+        self.AIMainLoop = AIMainLoop()
+        self.startpos = self.AIMainLoop.get_starting_position()
+        self.screen = self.AIMainLoop.get_screen()
+        self.track_color, self.background_color = self.AIMainLoop.get_track_background_color()
 
     def MainLoop(self):
         """
         MainLoop function is in charge of the Self Driving Car simulation
         """
 
+        loop = AIMainLoop()
+        loop.TrackLoop()
+
         self.selected_circuit = pygame.image.load("./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
-        self.car.position = [self.track.user_starting_position()[0] - self.car.CAR_WIDTH/2, self.track.user_starting_position()[1] - self.car.CAR_HEIGHT/2]
-        self.track.surface.fill((0, 0, 0))
-        self.track.surface.blit((self.selected_circuit), (0, 0))
-        self.track.surface.blit(self.car.sprite, self.car.position)
+        self.car = Car(self.startpos[0] - self.car.CAR_WIDTH/2, self.startpos[1] - self.car.CAR_HEIGHT/2)
+        #self.car.center = [self.track.user_starting_position()[0] - self.car.CAR_WIDTH/2, self.track.user_starting_position()[1] - self.car.CAR_HEIGHT/2]
+        self.screen.fill((0, 0, 0))
+        self.screen.blit((self.selected_circuit), (0, 0))
+        self.screen.blit(self.car.sprite, self.car.position)
 
 
         running = False
@@ -125,17 +146,22 @@ class AIMainLoop():
                     elif event.key == pygame.K_RETURN:
                         self.car.position = self.car.update_car_position_test()
                     """
-
+            """
             # Test to ensure car moves correctly
             self.car.velocity = 1
             self.car.angle = 1
             self.car.move()
+            """
 
-            self.track.surface.fill((0, 0, 0))
-            self.track.surface.blit((self.selected_circuit), (0, 0))
+            self.screen.fill((0, 0, 0))
+            self.screen.blit((self.selected_circuit), (0, 0))
 
             if self.car.alive:
-                self.track.surface.blit(self.car.sprite, self.car.position)
+                self.screen.blit(self.car.sprite, self.car.position)
+
+            for degree in range(-90, 120, 45):
+                self.car.check_sensor(degree, self.screen, self.background_color)
+            self.car.draw_sensor(self.screen)
 
             
 
@@ -143,6 +169,6 @@ class AIMainLoop():
 
 
 
-loop = AIMainLoop()
-loop.TrackLoop() # To avoid having to build the track every time ^^
+loop = MainLoop()
+loop.MainLoop()
 
