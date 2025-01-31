@@ -18,13 +18,16 @@ class RaceTrackLoop():
         self.track.surface = pygame.display.set_mode((self.track.width, self.track.height))
         self.instruction_bar = pygame.Rect(0, 0, self.track.width, 80)
         self.car = Car(self.track.starting_position)
+        self.track_running = False
+        self.running = False
+
 
     def TrackLoop(self):
         """
         TrackLoop function is in charge of the track generation
         """
-        track_running = True
-        while track_running:
+        self.track_running = True
+        while self.track_running:
 
             clock = pygame.time.Clock()
 
@@ -35,14 +38,16 @@ class RaceTrackLoop():
 
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
-                    track_running = False
+                    self.track_running = False
+                    self.running = False
                     break
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        track_running = False
+                        self.track_running = False
+                        self.running = False
                         break
                     elif event.key == pygame.K_RETURN:
-                        track_running = False
+                        self.track_running = False
                         pygame.display.set_caption("Placing Starting Line")
                         self.track.surface.fill(Color.BLACK, self.instruction_bar)
                         break
@@ -54,8 +59,8 @@ class RaceTrackLoop():
         """
         StartingPosLoop function is in charge of setting the starting line (and the starting point, at the middle of the starting line)
         """
-        running = True
-        while running:
+        self.running = True
+        while self.running:
 
             clock = pygame.time.Clock()
 
@@ -64,11 +69,11 @@ class RaceTrackLoop():
             
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
-                    running = False
+                    self.running = False
                     break
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        running = False
+                        self.running = False
                         break
 
             pygame.display.flip()

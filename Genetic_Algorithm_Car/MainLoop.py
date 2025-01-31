@@ -20,46 +20,76 @@ class MainLoop():
         self.car = Car(self.startpos)
         self.car.center = [self.car.position[0] + self.car.CAR_WIDTH/2, self.car.position[1] + self.car.CAR_HEIGHT/2]
         self.selected_circuit = pygame.image.load("./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
+        self.begin = True
+        self.pause = False
+        self.running = False
 
         # Test to ensure car moves correctly
         self.car.velocity = 1
 
+    def pause_game(self):
+        self.pause = True
+        self.running = False
+        while self.pause:
+            pygame.display.set_caption("Game Paused")
+            for event in pygame.event.get():    
+                if event.type == pygame.QUIT:
+                    self.pause = False
+                    self.running = False
+                    break
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.pause = False
+                        self.running = False
+                        break
+                    if event.key == pygame.K_p:
+                        self.pause = False
+                        self.running = True
+                        break
+
+    def start(self):
+        self.begin = True
+        while self.begin:
+            pygame.display.set_caption("Press enter to begin simulation")
+            for event in pygame.event.get():    
+                if event.type == pygame.QUIT:
+                    self.begin = False
+                    self.running = False
+                    break
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.begin = False
+                        self.running = False
+                        break
+                    elif event.key == pygame.K_RETURN:
+                        self.running = True
+                        self.begin = False
+                        pygame.display.set_caption("Simulation")
+                        break
 
     def MainLoop(self):
         """
         MainLoop function is in charge of the Self Driving Car simulation
         """
         running = False
+
         # Press enter to begin simulation
-        begin = True
-        while begin:
-            pygame.display.set_caption("Press enter to begin simulation")
-            for event in pygame.event.get():    
-                if event.type == pygame.QUIT:
-                    begin = False
-                    running = False
-                    break
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        begin = False
-                        running = True
-                        pygame.display.set_caption("Simulation")
-                        break
+        self.start()
 
-        while running:
+        while self.running:
 
-            pause = False
+            self.pause = False
             
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
-                    running = False
+                    self.running = False
                     break
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        running = False
+                        self.running = False
                         break
                     elif event.key==pygame.K_p:
-                        pygame.time.delay(3000)
+                        self.pause_game()
 
 
             self.screen.fill((0, 0, 0))
