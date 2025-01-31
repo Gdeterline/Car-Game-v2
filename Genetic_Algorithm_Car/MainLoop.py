@@ -21,6 +21,10 @@ class MainLoop():
         self.car.center = [self.car.position[0] + self.car.CAR_WIDTH/2, self.car.position[1] + self.car.CAR_HEIGHT/2]
         self.selected_circuit = pygame.image.load("./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
 
+        # Test to ensure car moves correctly
+        self.car.velocity = 1
+
+
     def MainLoop(self):
         """
         MainLoop function is in charge of the Self Driving Car simulation
@@ -60,21 +64,16 @@ class MainLoop():
 
             self.screen.fill((0, 0, 0))
             self.screen.blit((self.selected_circuit), (0, 0))
-            self.screen.blit(self.car.sprite, self.car.position)
+
+            """
+            Driving actions to add here!
+            """
             
-            """
-            # Test to ensure car moves correctly
-            self.car.velocity = 1
-            self.car.angle = 1
-            self.car.move()
-            """
-
-
-            self.screen.fill((0, 0, 0))
-            self.screen.blit((self.selected_circuit), (0, 0))
-
             if self.car.alive:
-                self.screen.blit(self.car.sprite, self.car.position)
+                self.car.update(self.screen, self.background_color)
+                self.car._sprite = pygame.transform.rotate(self.car.sprite, self.car.angle)
+                rect = self.car.sprite.get_rect(center=self.car.center)
+                self.screen.blit(self.car._sprite, rect)
                 self.car.clear_sensors()
                 for degree in range(-90, 120, 45):
                     self.car.check_sensor(degree, self.screen, self.background_color)

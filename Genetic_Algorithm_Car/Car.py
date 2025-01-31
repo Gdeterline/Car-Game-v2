@@ -12,20 +12,20 @@ class Car():
     def __init__(self, starting_position: list):
         pygame.sprite.Sprite.__init__(self)
         car_image = pygame.image.load(CAR_PATH)
-        self.sprite = pygame.transform.scale(car_image, (Car.CAR_WIDTH, Car.CAR_HEIGHT))        
-        ###### Car's properties ######
-        # Car's position vector
+        self.sprite = pygame.transform.scale(car_image, (Car.CAR_WIDTH, Car.CAR_HEIGHT))  
+        self._sprite = self.sprite  
+
         self.position = starting_position
         self.center = starting_position
-        # Car's velocity
         self.velocity = 0
-        # Car's angle
         self.angle = 0
 
         self.sensors = []
-
         self.alive = True
+
         self.driven_distance = 0
+
+    ############# Collision Management + Sensors ##############
 
     def draw_sensor(self, screen):
         for radar in self.sensors:
@@ -48,12 +48,18 @@ class Car():
 
     def clear_sensors(self):
         self.sensors.clear()
+
+    def collision(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
+        self.alive = True
+        if screen.get_at((int(self.center[0]), int(self.center[1]))) == OUTBOUND_COLOR:
+            self.alive = False
+
+    ############# Car Physics ############
     
     def move(self):
         self.position[0] += self.velocity * math.cos(math.radians(self.angle))
         self.position[1] -= self.velocity * math.sin(math.radians(self.angle)) 
         self.center = [self.position[0] + self.CAR_WIDTH/2, self.position[1] + self.CAR_HEIGHT/2]
-      
 
     def turn_left(self):
         # If the car is moving forward, the angle increases by 5 degrees
@@ -78,4 +84,8 @@ class Car():
         if self.velocity >= -2:
             self.velocity -= 0.1  
 
+    def update(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
+        self.collision(screen, OUTBOUND_COLOR)
+        self.move()
+        self.rect = self.sprite.get_rect(center=(self.position[0], self.position[1]))
 
