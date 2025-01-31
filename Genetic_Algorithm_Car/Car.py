@@ -29,29 +29,31 @@ class Car():
 
     def draw_sensor(self, screen):
         for radar in self.sensors:
-            position = radar[0]
-            pygame.draw.line(screen, (0, 255, 0), self.position, position, 1)
-            pygame.draw.circle(screen, (0, 255, 0), position, 2)
+            center = radar[0]
+            pygame.draw.line(screen, (0, 255, 0), self.center, center, 1)
+            pygame.draw.circle(screen, (0, 255, 0), center, 2)
 
     def check_sensor(self, degree, screen: pygame.surface.Surface, OUTBOUND_COLOR):
         length = 0
-        x = int(self.position[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
-        y = int(self.position[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
+        x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
+        y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
         while not screen.get_at((x, y)) == OUTBOUND_COLOR and length < 300: # Sensor length = max(outbound dist, 300)
             length += 1
-            x = int(self.position[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
-            y = int(self.position[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
+            x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
+            y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
-        distance = int(math.sqrt(math.pow(x - self.position[0], 2) + math.pow(y - self.position[1], 2)))
+        distance = int(math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2)))
         self.sensors.append([(x, y), distance])
 
-    def update_car_position_test(self):
-        return [self.position[0]+300, self.position[1]+300] 
+    def clear_sensors(self):
+        self.sensors.clear()
     
     def move(self):
         self.position[0] += self.velocity * math.cos(math.radians(self.angle))
-        self.position[1] -= self.velocity * math.sin(math.radians(self.angle))   
+        self.position[1] -= self.velocity * math.sin(math.radians(self.angle)) 
+        self.center = [self.position[0] + self.CAR_WIDTH/2, self.position[1] + self.CAR_HEIGHT/2]
+      
 
     def turn_left(self):
         # If the car is moving forward, the angle increases by 5 degrees

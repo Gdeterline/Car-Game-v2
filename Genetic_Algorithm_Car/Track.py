@@ -39,17 +39,12 @@ class Track():
             pygame.draw.circle(self.surface, Color.BLACK, pygame.mouse.get_pos(), self.brush_size)
             pygame.display.set_caption("")
 
-
-    """
-    To add a starting line (which needs to be perpendicular), we can add a deque/list with the 4 or 5 first 
-    """
-
     def user_track_starting_position(self):
          if pygame.mouse.get_pressed()[0]:
             self.starting_position = pygame.mouse.get_pos()
             pygame.display.set_caption("Starting Position Set")
 
-    def blit_test_starting_line(self):
+    def blit_starting_line_instructions(self):
         txtsurf5 = font.render("Left click to place first point of the starting line", True, Color.WHITE)
         txtsurf6 = font.render("Right click to place second point of the starting line", True, Color.WHITE)
         self.surface.blit(txtsurf5,(10, txtsurf5.get_height() // 2))

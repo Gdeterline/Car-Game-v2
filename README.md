@@ -145,7 +145,7 @@ We will develop this functionnality in several steps.
 
 - **GA V1**
     - Develop Track Drawing Functionnality (addition to the initial project - fun to do on the player side, good for practice on my side): Once we have one trakc, it should be slightly simpler to handle collisions, as at first, the track should be very simple (black track on a white screen)
-    - Modelise the car by a rectangle (PyGame Rect) - Prototyping stage
+    - Car - Prototyping stage
     - Develop some car features and functions (Accelerating, Turning, etc.)
     - Develop the Collision Detection functionnality
     - Develop, then draw, the distance sensors
@@ -154,8 +154,7 @@ We will develop this functionnality in several steps.
     - Develop the genetic aspect of the project - genomes, NEAT, etc.
 
 - **GA V2** -
-    - Add extra functionnalities
-    - Add images (track color and details, track image, car images, etc.)
+    - Add extra functionnalities/functionnalities
 
 # III. Self Driving Car - Reinforcement Learning Method <a name="RL"></a>
 
