@@ -1,4 +1,5 @@
 import os
+import sys
 import pygame
 from Track import Track
 from Colors import Color
@@ -40,12 +41,12 @@ class RaceTrackLoop():
                 if event.type == pygame.QUIT:
                     self.track_running = False
                     self.running = False
-                    break
+                    sys.exit(0)
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.track_running = False
                         self.running = False
-                        break
+                        sys.exit(0)
                     elif event.key == pygame.K_RETURN:
                         self.track_running = False
                         pygame.display.set_caption("Placing Starting Line")
@@ -70,11 +71,11 @@ class RaceTrackLoop():
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     self.running = False
-                    break
+                    sys.exit(0)
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
-                        break
+                        sys.exit(0)
 
             pygame.display.flip()
             

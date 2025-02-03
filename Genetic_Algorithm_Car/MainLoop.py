@@ -1,4 +1,5 @@
 import os
+import sys
 import pygame
 from Colors import Color
 from Car import Car
@@ -36,12 +37,12 @@ class MainLoop():
                 if event.type == pygame.QUIT:
                     self.pause = False
                     self.running = False
-                    break
+                    sys.exit(0)
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.pause = False
                         self.running = False
-                        break
+                        sys.exit(0)
                     if event.key == pygame.K_p:
                         self.pause = False
                         self.running = True
@@ -55,12 +56,12 @@ class MainLoop():
                 if event.type == pygame.QUIT:
                     self.begin = False
                     self.running = False
-                    break
+                    sys.exit(0)
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.begin = False
                         self.running = False
-                        break
+                        sys.exit(0)
                     elif event.key == pygame.K_RETURN:
                         self.running = True
                         self.begin = False
@@ -83,11 +84,11 @@ class MainLoop():
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     self.running = False
-                    break
+                    sys.exit(0)
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
-                        break
+                        sys.exit(0)
                     elif event.key==pygame.K_p:
                         self.pause_game()
 
