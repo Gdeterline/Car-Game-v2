@@ -87,5 +87,6 @@ class Car():
     def update(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
         self.collision(screen, OUTBOUND_COLOR)
         self.move()
+        self.driven_distance += self.velocity
         self.rect = self.sprite.get_rect(center=(self.position[0], self.position[1]))
 
