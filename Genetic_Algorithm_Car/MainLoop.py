@@ -25,8 +25,7 @@ class MainLoop():
         self.pause = False
         self.running = False
 
-        # Test to ensure car moves correctly
-        self.car.velocity = 1
+        self.car.velocity = 0.3
 
     def pause_game(self):
         self.pause = True

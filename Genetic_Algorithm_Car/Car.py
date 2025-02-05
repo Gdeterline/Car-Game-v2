@@ -59,7 +59,7 @@ class Car():
     def move(self):
         self.position[0] += self.velocity * math.cos(math.radians(self.angle))
         self.position[1] -= self.velocity * math.sin(math.radians(self.angle)) 
-        self.center = [self.position[0] + self.CAR_WIDTH/2, self.position[1] + self.CAR_HEIGHT/2]
+        self.center = [self.position[0], self.position[1]]
 
     def turn_left(self):
         # If the car is moving forward, the angle increases by 5 degrees
