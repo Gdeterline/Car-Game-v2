@@ -1,4 +1,4 @@
 __pycache__
 game
 .vscode/launch.json
-*.png
+./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png
