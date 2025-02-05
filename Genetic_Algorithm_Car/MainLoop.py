@@ -94,12 +94,13 @@ class MainLoop():
 
             self.screen.fill((0, 0, 0))
             self.screen.blit((self.selected_circuit), (0, 0))
-
-            """
-            Driving actions to add here!
-            """
             
             if self.car.alive:
+                
+                """
+                Driving actions to add here!
+                """
+                
                 self.car.update(self.screen, self.background_color)
                 self.car._sprite = pygame.transform.rotate(self.car.sprite, self.car.angle)
                 rect = self.car.sprite.get_rect(center=self.car.center)
