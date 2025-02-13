@@ -58,11 +58,11 @@ class Car(pygame.sprite.Sprite): #Utilisation de la classe "Sprite" du module "s
         
     def accelerate(self):
         if self.velocity <= 5:
-            self.velocity += 0.1
+            self.velocity += 0.02
         
     def decelerate(self):
         if self.velocity >= -2:
-            self.velocity -= 0.1  
+            self.velocity -= 0.02  
         
     def brake(self):
         if self.velocity >= 0.2:
