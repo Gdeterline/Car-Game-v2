@@ -25,7 +25,7 @@ class MainLoop():
         self.pause = False
         self.running = False
 
-        self.car.velocity = 0.3
+        self.car.velocity = 0.7
 
     def pause_game(self):
         self.pause = True
@@ -106,7 +106,7 @@ class MainLoop():
                 rect = self.car.sprite.get_rect(center=self.car.center)
                 self.screen.blit(self.car._sprite, rect)
                 self.car.clear_sensors()
-                for degree in range(-90, 120, 45):
+                for degree in range(-90, 120, 30):
                     self.car.check_sensor(degree, self.screen, self.background_color)
                 self.car.draw_sensor(self.screen)
 
