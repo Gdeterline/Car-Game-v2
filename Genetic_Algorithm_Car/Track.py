@@ -66,3 +66,6 @@ class Track():
         self.starting_position = [self.spos1, self.spos2]
         pygame.draw.circle(self.surface, Color.BLUE, self.starting_position, 2)
         return self.starting_position
+    
+    def get_starting_position(self):
+        return self.starting_position
