@@ -27,7 +27,7 @@ class MainLoop():
         self.pause = False
         self.running = False
 
-        self.ga = GeneticAlgorithm(population_size)
+        #self.ga = GeneticAlgorithm(population_size)
         self.cars = [Car(self.startpos) for _ in range(population_size)]
         self.generation = 0
 
