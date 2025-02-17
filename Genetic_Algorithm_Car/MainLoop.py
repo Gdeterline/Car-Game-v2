@@ -9,7 +9,7 @@ from TrackLoop import RaceTrackLoop
 pygame.init()
 
 font = pygame.font.SysFont("Calibri", 18)
-population_size = 10    # Need to check sensor issue: when cars are in the exact same position, sensors seem not to overlap
+population_size = 1    # Need to check sensor issue: when cars are in the exact same position, sensors seem not to overlap
 
 class MainLoop():
 
@@ -137,6 +137,7 @@ class MainLoop():
                     for degree in range(-90, 120, 30):
                         car.check_sensor(degree, self.screen, self.background_color)
                     car.draw_sensor(self.screen)
+                    print(car.sensdist)
                     car.update(self.screen, self.background_color)
                     car._sprite = pygame.transform.rotate(car.sprite, car.angle)
                     rect = car.sprite.get_rect(center=car.center)

@@ -22,6 +22,7 @@ class Car():
         self.angle = 0
 
         self.sensors = []
+        self.sensdist = []
         self.alive = True
 
         self.driven_distance = 0
@@ -46,9 +47,11 @@ class Car():
 
         distance = int(math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2)))
         self.sensors.append([(x, y), distance])
+        self.sensdist.append(distance)
 
     def clear_sensors(self):
         self.sensors.clear()
+        self.sensdist.clear()
 
     def collision(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
         if screen.get_at((int(self.center[0]), int(self.center[1]))) == OUTBOUND_COLOR:
