@@ -137,6 +137,7 @@ Here's a breakdown of the code structure:
 Genetic Algorithms are part of what we call evolutionary algorithms. The concept of GAs comes from the observation over time - and especially of natural selection and genetics.
 To quote Geeks for Geeks, genetic algorithms simulate the process of natural selection which means those species that can adapt to changes in their environment can survive and reproduce and go to the next generation. In simple words, they simulate “survival of the fittest”.
 
+
 The aim of this subproject is to implement such an algorithm, in order to create a self driving car, against which the player can play.
 
 ## 2. Development phases
@@ -151,10 +152,15 @@ We will develop this functionnality in several steps.
     - Develop, then draw, the distance sensors
 
 - **GA V1.1**
-    - Develop the genetic aspect of the project - genomes, NEAT, etc.
+    - Develop the genetic aspect of the project - genomes, neural network, etc.
 
 - **GA V2** -
-    - Add extra functionnalities/functionnalities
+    - Add extra functionnalities/functionnalities - Enabling the player to play against the Ai-driven car.
+
+<p align="center">
+  <img src=./images/GA_image.png?raw=true alt="Genetic_Algorithm_Sim", width="985"/>
+</p>
+
 
 # III. Self Driving Car - Reinforcement Learning Method <a name="RL"></a>
 

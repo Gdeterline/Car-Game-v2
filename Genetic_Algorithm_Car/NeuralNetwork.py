@@ -12,7 +12,7 @@ class NeuralNetwork():
         x = np.dot(inputs, self.weights1) + self.bias1
         x = np.maximum(0, x) # ReLU activation
         x = np.dot(x, self.weights2) + self.bias2
-        return np.tanh(x) # Outputs between -1 and 1
+        return np.tanh(x)
 
     def get_weights(self):
         return np.concatenate([self.weights1.flatten(), self.bias1.flatten(), 

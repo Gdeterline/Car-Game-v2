@@ -1,5 +1,6 @@
 import pygame
 import math
+import numpy as np
 import random as rd
 from Track import Track
 
@@ -18,6 +19,7 @@ class Car():
 
         self.position = starting_position
         self.center = starting_position
+        self.max_velocity = 2
         self.velocity = 0
         self.angle = 0
 
@@ -59,16 +61,19 @@ class Car():
 
     ############# Car Physics ############
     
-    def decide_action(self):
-        n = rd.randint(0, 1)
-        if n == 0:
+    def decide_action(self, input): # Expecting a [[1, 1]] shape array
+        n = np.round(input)
+        if n[0][0] == 1 and n[0][1] == 1:
             self.accelerate()
-        elif n == 1:
+        elif n[0][0] == 0 and n[0][1] == 0:
             self.decelerate()
-
+        elif n[0][0] == 1 and n[0][1] == 0:
+            self.turn_left()
+        elif n[0][0] == 0 and n[0][1] == 1:
+            self.turn_right()
     
-    def move(self):
-        self.decide_action()
+    def move(self, input):
+        self.decide_action(input)
         self.position[0] += self.velocity * math.cos(math.radians(self.angle))
         self.position[1] -= self.velocity * math.sin(math.radians(self.angle)) 
         self.center = [self.position[0], self.position[1]]
@@ -89,15 +94,15 @@ class Car():
             self.angle += 2
         
     def accelerate(self):
-        if self.velocity <= 5:
+        if self.velocity <= self.max_velocity:
             self.velocity += 0.1
         
     def decelerate(self):
         if self.velocity >= 0.1:
             self.velocity -= 0.1  
 
-    def update(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
-        self.move()
+    def update(self, screen: pygame.surface.Surface, input, OUTBOUND_COLOR):
+        self.move(input)
         self.collision(screen, OUTBOUND_COLOR)
         self.driven_distance += self.velocity
         self.rect = self.sprite.get_rect(center=(self.position[0], self.position[1]))
