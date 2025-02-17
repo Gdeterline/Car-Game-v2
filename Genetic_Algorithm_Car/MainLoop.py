@@ -1,15 +1,15 @@
+
 import os
 import sys
 import pygame
 from Colors import Color
 from Car import Car
 from TrackLoop import RaceTrackLoop
-from GeneticAlgorithm import GeneticAlgorithm
 
 pygame.init()
 
 font = pygame.font.SysFont("Calibri", 18)
-population_size = 100
+population_size = 10    # Need to check sensor issue: seems like the sensors distance can't overlap over each other in case several cars are exactly at the same position 
 
 class MainLoop():
 
@@ -20,16 +20,18 @@ class MainLoop():
         self.startpos = self.AIMainLoop.get_starting_position()
         self.screen = self.AIMainLoop.get_screen()
         self.track_color, self.background_color = self.AIMainLoop.get_track_background_color()
-        #self.car = Car(self.startpos)
-        #self.car.center = [self.car.position[0] + self.car.CAR_WIDTH/2, self.car.position[1] + self.car.CAR_HEIGHT/2]
         self.selected_circuit = pygame.image.load("./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
         self.begin = True
         self.pause = False
         self.running = False
 
-        #self.ga = GeneticAlgorithm(population_size)
         self.cars = [Car(self.startpos) for _ in range(population_size)]
+        for car in self.cars:
+            car.center = [car.position[0] + car.CAR_WIDTH/2, car.position[1] + car.CAR_HEIGHT/2]
         self.generation = 0
+
+
+
 
     def pause_game(self):
         self.pause = True
@@ -106,14 +108,13 @@ class MainLoop():
                     Driving actions to add here!
                     """
                     car.clear_sensors()
-                    for degree in range(-90, 120, 45):
+                    for degree in range(-90, 120, 30):
                         car.check_sensor(degree, self.screen, self.background_color)
                     car.draw_sensor(self.screen)
                     car.update(self.screen, self.background_color)
                     car._sprite = pygame.transform.rotate(car.sprite, car.angle)
                     rect = car.sprite.get_rect(center=car.center)
                     self.screen.blit(car._sprite, rect)
-
             
 
             pygame.display.flip()
@@ -122,4 +123,3 @@ class MainLoop():
 
 loop = MainLoop()
 loop.MainLoop()
-

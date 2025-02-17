@@ -1,8 +1,6 @@
 import pygame
-import numpy as np
 import math
 from Track import Track
-from NeuralNetwork import NeuralNetwork
 
 CAR_PATH = "./Genetic_Algorithm_Car/assets/cars/car.png"
 
@@ -11,7 +9,7 @@ class Car():
     CAR_WIDTH = 30
     CAR_HEIGHT = 15
 
-    def __init__(self, starting_position: list, nn=None):
+    def __init__(self, starting_position: list):
         pygame.sprite.Sprite.__init__(self)
         car_image = pygame.image.load(CAR_PATH)
         self.sprite = pygame.transform.scale(car_image, (Car.CAR_WIDTH, Car.CAR_HEIGHT))  
@@ -20,16 +18,12 @@ class Car():
         self.position = starting_position
         self.center = starting_position
         self.velocity = 0
-        self.max_velocity = 0.5
         self.angle = 0
 
         self.sensors = []
-        self.sensdist = []
         self.alive = True
 
         self.driven_distance = 0
-
-        self.nn = nn if nn else NeuralNetwork(5, 10, 2)
 
     ############# Collision Management + Sensors ##############
 
@@ -51,11 +45,9 @@ class Car():
 
         distance = int(math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2)))
         self.sensors.append([(x, y), distance])
-        self.sensdist.append(distance)
 
     def clear_sensors(self):
         self.sensors.clear()
-        self.sensdist.clear()
 
     def collision(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
         self.alive = True
@@ -63,7 +55,7 @@ class Car():
             self.alive = False
 
     ############# Car Physics ############
-
+    
     def decide_action(self):
         pass
     
@@ -89,11 +81,11 @@ class Car():
             self.angle += 2
         
     def accelerate(self):
-        if self.velocity <= self.max_velocity:
+        if self.velocity <= 5:
             self.velocity += 0.1
         
     def decelerate(self):
-        if self.velocity >= 0.1:
+        if self.velocity >= -2:
             self.velocity -= 0.1  
 
     def update(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
@@ -107,4 +99,5 @@ class Car():
         self.velocity = 0
         self.alive = True
         self.driven_distance = 0
+        self.sensors.clear()
         self.position = Track.get_starting_position()
