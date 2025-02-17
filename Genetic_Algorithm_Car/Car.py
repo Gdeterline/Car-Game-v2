@@ -1,5 +1,6 @@
 import pygame
 import math
+import random as rd
 from Track import Track
 
 CAR_PATH = "./Genetic_Algorithm_Car/assets/cars/car.png"
@@ -38,7 +39,7 @@ class Car():
         x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
         y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
-        while not screen.get_at((x, y)) == OUTBOUND_COLOR and length < 300: # Sensor length = max(outbound dist, 300)
+        while not screen.get_at((x, y)) == OUTBOUND_COLOR and length < 100: # Sensor length = max(outbound dist, 300)
             length += 1
             x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
             y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
@@ -50,14 +51,18 @@ class Car():
         self.sensors.clear()
 
     def collision(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
-        self.alive = True
         if screen.get_at((int(self.center[0]), int(self.center[1]))) == OUTBOUND_COLOR:
             self.alive = False
 
     ############# Car Physics ############
     
     def decide_action(self):
-        pass
+        n = rd.randint(0, 1)
+        if n == 0:
+            self.accelerate()
+        elif n == 1:
+            self.decelerate()
+
     
     def move(self):
         self.decide_action()
@@ -85,12 +90,12 @@ class Car():
             self.velocity += 0.1
         
     def decelerate(self):
-        if self.velocity >= -2:
+        if self.velocity >= 0.1:
             self.velocity -= 0.1  
 
     def update(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
-        self.collision(screen, OUTBOUND_COLOR)
         self.move()
+        self.collision(screen, OUTBOUND_COLOR)
         self.driven_distance += self.velocity
         self.rect = self.sprite.get_rect(center=(self.position[0], self.position[1]))
 

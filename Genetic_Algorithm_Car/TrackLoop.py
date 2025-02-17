@@ -54,7 +54,7 @@ class RaceTrackLoop():
                         break
 
 
-            clock.tick(120) # Higher fps to be able to draw a clean track
+            clock.tick(240) # Higher fps to be able to draw a clean track
 
     def StartingPosLoop(self):
         """

@@ -9,7 +9,7 @@ from TrackLoop import RaceTrackLoop
 pygame.init()
 
 font = pygame.font.SysFont("Calibri", 18)
-population_size = 10    # Need to check sensor issue: seems like the sensors distance can't overlap over each other in case several cars are exactly at the same position 
+population_size = 10    # Need to check sensor issue: when cars are in the exact same position, sensors seem not to overlap
 
 class MainLoop():
 
@@ -17,15 +17,19 @@ class MainLoop():
         self.AIMainLoop = RaceTrackLoop()
         self.AIMainLoop.TrackLoop()
         self.AIMainLoop.StartingPosLoop()
-        self.startpos = self.AIMainLoop.get_starting_position()
         self.screen = self.AIMainLoop.get_screen()
         self.track_color, self.background_color = self.AIMainLoop.get_track_background_color()
         self.selected_circuit = pygame.image.load("./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
         self.begin = True
         self.pause = False
         self.running = False
-
-        self.cars = [Car(self.startpos) for _ in range(population_size)]
+        """
+        self.car1 = Car(self.startpos)
+        self.car2 = Car([self.startpos[0] + 30, self.startpos[1] + 10])
+        self.car1.center = [self.car1.position[0] + self.car1.CAR_WIDTH/2, self.car1.position[1] + self.car1.CAR_HEIGHT/2]
+        self.car2.center = [self.car2.position[0] + self.car2.CAR_WIDTH/2 + 30, self.car2.position[1] + self.car2.CAR_HEIGHT/2 + 10]
+        """
+        self.cars = [Car(self.AIMainLoop.get_starting_position()) for _ in range(population_size)]
         for car in self.cars:
             car.center = [car.position[0] + car.CAR_WIDTH/2, car.position[1] + car.CAR_HEIGHT/2]
         self.generation = 0
@@ -101,12 +105,34 @@ class MainLoop():
             self.screen.fill((0, 0, 0))
             self.screen.blit((self.selected_circuit), (0, 0))
             
+
+            """
+            print(self.car1.position, self.car1.center)
+            if self.car1.alive:
+                self.car1.clear_sensors()
+                for degree in range(-90, 120, 45):
+                    self.car1.check_sensor(degree, self.screen, self.background_color)
+                self.car1.draw_sensor(self.screen)
+                self.car1.update(self.screen, self.background_color)
+                self.car1._sprite = pygame.transform.rotate(self.car1.sprite, self.car1.angle)
+                rect1 = self.car1.sprite.get_rect(center=self.car1.center)
+                self.screen.blit(self.car1._sprite, rect1)
+            
+            print(self.car2.position, self.car2.center)  
+            if self.car2.alive:
+                self.car2.clear_sensors()
+                for degree in range(-90, 120, 45):
+                    self.car2.check_sensor(degree, self.screen, self.background_color)
+                self.car2.draw_sensor(self.screen)
+                self.car2.update(self.screen, self.background_color)
+                self.car2._sprite = pygame.transform.rotate(self.car2.sprite, self.car2.angle)
+                rect2 = self.car2.sprite.get_rect(center=self.car2.center)
+                self.screen.blit(self.car2._sprite, rect2)
+            """
+            
             for car in self.cars:
                 if car.alive:
-                    
-                    """
-                    Driving actions to add here!
-                    """
+            
                     car.clear_sensors()
                     for degree in range(-90, 120, 30):
                         car.check_sensor(degree, self.screen, self.background_color)
