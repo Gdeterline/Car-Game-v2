@@ -3,9 +3,9 @@ import numpy as np
 class NeuralNetwork():
 
     def __init__(self, input_size, hidden_size, output_size):
-        self.weights1 = np.random.randn(input_size, hidden_size)
+        self.weights1 = np.random.randn(input_size, hidden_size) * np.sqrt(2.0 / input_size)
         self.bias1 = np.zeros((1, hidden_size))
-        self.weights2 = np.random.randn(hidden_size, output_size)
+        self.weights2 = np.random.randn(hidden_size, output_size) * np.sqrt(2.0 / hidden_size)
         self.bias2 = np.zeros((1, output_size))
 
     def forward(self, inputs):

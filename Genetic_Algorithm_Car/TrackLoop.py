@@ -15,7 +15,7 @@ font = pygame.font.SysFont("Calibri", 18)
 class RaceTrackLoop():
 
     def __init__(self):
-        self.track = Track(width=1200, height=800, brush_size=40, background_color=Color.BLACK, track_color=Color.WHITE)
+        self.track = Track(width=1200, height=800, brush_size=50, background_color=Color.BLACK, track_color=Color.WHITE)
         self.track.surface = pygame.display.set_mode((self.track.width, self.track.height))
         self.instruction_bar = pygame.Rect(0, 0, self.track.width, 80)
         self.car = Car(self.track.starting_position)

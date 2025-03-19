@@ -3,6 +3,7 @@ import math
 import numpy as np
 import random as rd
 from Track import Track
+from NeuralNetwork import NeuralNetwork
 
 CAR_PATH = "./Genetic_Algorithm_Car/assets/cars/car.png"
 
@@ -19,8 +20,9 @@ class Car():
 
         self.position = starting_position
         self.center = starting_position
-        self.max_velocity = 2
-        self.velocity = 0
+        self.max_velocity = 3
+        self.min_velocity = 1
+        self.velocity = 1.5
         self.angle = 0
 
         self.sensors = []
@@ -28,21 +30,23 @@ class Car():
         self.alive = True
 
         self.driven_distance = 0
+        
+        self.nn = NeuralNetwork(5, 8, 2)
 
     ############# Collision Management + Sensors ##############
 
-    def draw_sensor(self, screen):
+    def draw_sensor(self, sensor_surface: pygame.surface.Surface):
         for radar in self.sensors:
             center = radar[0]
-            pygame.draw.line(screen, (0, 255, 0), self.center, center, 1)
-            pygame.draw.circle(screen, (0, 255, 0), center, 2)
+            pygame.draw.line(sensor_surface, (0, 255, 0), self.center, center, 1)
+            pygame.draw.circle(sensor_surface, (0, 255, 0), center, 2)
 
     def check_sensor(self, degree, screen: pygame.surface.Surface, OUTBOUND_COLOR):
         length = 0
         x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
         y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
-        while not screen.get_at((x, y)) == OUTBOUND_COLOR and length < 100: # Sensor length = max(outbound dist, 300)
+        while not screen.get_at((x, y)) == OUTBOUND_COLOR and length < 200: # Sensor length = max(outbound dist, 200)
             length += 1
             x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
             y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
@@ -54,10 +58,28 @@ class Car():
     def clear_sensors(self):
         self.sensors.clear()
         self.sensdist.clear()
-
+        
+    """ 
     def collision(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
-        if screen.get_at((int(self.center[0]), int(self.center[1]))) == OUTBOUND_COLOR:
+        if (self.center[0] < 0 or self.center[0] >= screen.get_width() or
+            self.center[1] < 0 or self.center[1] >= screen.get_height()):
+            self.alive = False  # Car is dead if it's off-screen
+        elif screen.get_at((int(self.center[0]), int(self.center[1]))) == OUTBOUND_COLOR:
+            self.alive = False # Car is dead if it hits the track boundaries """
+            
+    def collision(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
+        print(f"Car center: {self.center}")
+        pixel_color = screen.get_at((int(self.center[0]), int(self.center[1])))
+        print(f"Pixel color: {pixel_color}, OUTBOUND_COLOR: {OUTBOUND_COLOR}")
+        print(f"Screen dimensions: {screen.get_width()}, {screen.get_height()}")
+        if (self.center[0] < 0 or self.center[0] >= screen.get_width() or
+            self.center[1] < 0 or self.center[1] >= screen.get_height()):
+            print("Off-screen collision")
             self.alive = False
+        elif pixel_color == OUTBOUND_COLOR:
+            print("Color collision detected!")
+            self.alive = False
+            
 
     ############# Car Physics ############
     
@@ -98,19 +120,13 @@ class Car():
             self.velocity += 0.1
         
     def decelerate(self):
-        if self.velocity >= 0.1:
+        if self.velocity >= self.min_velocity + 0.1:
             self.velocity -= 0.1  
 
-    def update(self, screen: pygame.surface.Surface, input, OUTBOUND_COLOR):
-        self.move(input)
+    def update(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
+        input_data = np.array([self.sensdist])
+        nn_output = self.nn.forward(input_data)
+        self.move(nn_output)
         self.collision(screen, OUTBOUND_COLOR)
         self.driven_distance += self.velocity
         self.rect = self.sprite.get_rect(center=(self.position[0], self.position[1]))
-
-    def reset(self):
-        self.angle = 0
-        self.velocity = 0
-        self.alive = True
-        self.driven_distance = 0
-        self.sensors.clear()
-        self.position = Track.get_starting_position()

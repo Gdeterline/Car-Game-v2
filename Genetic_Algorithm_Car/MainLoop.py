@@ -2,14 +2,16 @@ import os
 import sys
 import numpy as np
 import pygame
+import time
 from Colors import Color
 from Car import Car
 from TrackLoop import RaceTrackLoop
+from GeneticAlgorithm import GeneticAlgorithm
 
 pygame.init()
 
 font = pygame.font.SysFont("Calibri", 18)
-population_size = 10    # Need to check sensor issue: when cars are in the exact same position, sensors seem not to overlap
+population_size = 30    # Need to check sensor issue: when cars are in the exact same position, sensors seem not to overlap
 
 class MainLoop():
 
@@ -18,6 +20,7 @@ class MainLoop():
         self.AIMainLoop.TrackLoop()
         self.AIMainLoop.StartingPosLoop()
         self.screen = self.AIMainLoop.get_screen()
+        self.sensor_surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)  # Create a transparent surface for the sensors
         self.track_color, self.background_color = self.AIMainLoop.get_track_background_color()
         self.selected_circuit = pygame.image.load("./Genetic_Algorithm_Car/assets/racetracks/Racetrack.png")
         self.begin = True
@@ -30,11 +33,13 @@ class MainLoop():
         self.car2.center = [self.car2.position[0] + self.car2.CAR_WIDTH/2 + 30, self.car2.position[1] + self.car2.CAR_HEIGHT/2 + 10]
         """
         self.cars = [Car(self.AIMainLoop.get_starting_position()) for _ in range(population_size)]
+        i = 0
         for car in self.cars:
-            car.center = [car.position[0] + car.CAR_WIDTH/2, car.position[1] + car.CAR_HEIGHT/2]
+            i += 1
+            car.center = [car.position[0] + car.CAR_WIDTH/2 + i/(population_size), car.position[1] + car.CAR_HEIGHT/2+ i/(population_size)]
+            car.position = [car.position[0] + i/(population_size), car.position[1] + i/(population_size)]
         self.generation = 0
-
-
+        self.genetic_algorithm = GeneticAlgorithm(population_size)
 
 
     def pause_game(self):
@@ -103,8 +108,8 @@ class MainLoop():
 
 
             self.screen.fill((0, 0, 0))
+            self.sensor_surface.fill((0, 0, 0, 0))  # Clear sensor surface
             self.screen.blit((self.selected_circuit), (0, 0))
-            
 
             """
             print(self.car1.position, self.car1.center)
@@ -130,22 +135,51 @@ class MainLoop():
                 self.screen.blit(self.car2._sprite, rect2)
             """
             
+            all_cars_dead = True
+            
             for car in self.cars:
                 if car.alive:
-            
+                    all_cars_dead = False
+                    # print(f"Car {car} alive: {car.alive}")
                     car.clear_sensors()
-                    for degree in range(-90, 120, 30):
+                    for degree in range(-90, 120, 45):  # 5 sensors - if changed, need to change the input size of the NN in Car.py
                         car.check_sensor(degree, self.screen, self.background_color)
-                    car.draw_sensor(self.screen)
+                    car.draw_sensor(self.sensor_surface)
                     
-                    input = np.random.rand(1, 2)    # Try making the car move depending on an input that will be provided by the NN trained by the Genetic Algorithm - works fine
-                    
-                    car.update(self.screen, input, self.background_color)
+                    car.update(self.screen, self.background_color)
+                    # print(car.driven_distance)    # Check if the car fitness score is well updated
+
                     car._sprite = pygame.transform.rotate(car.sprite, car.angle)
                     rect = car.sprite.get_rect(center=car.center)
                     self.screen.blit(car._sprite, rect)
             
-
+            self.screen.blit(self.sensor_surface, (0, 0))
+             
+             
+            dead, alive = 0, 0
+            for car in self.cars:
+                if car.alive:
+                    alive += 1
+                else:
+                    dead += 1
+            
+            if all_cars_dead == True:
+                #print("All cars dead")
+                self.generation += 1
+                #print(f"Generation: {self.generation}")
+                self.cars = self.genetic_algorithm.create_next_generation(self.cars, self.AIMainLoop.get_starting_position())
+                i = 0
+                for car in self.cars:
+                    i += 1
+                    car.center = [car.position[0] + car.CAR_WIDTH/2 + i/(population_size), car.position[1] + car.CAR_HEIGHT/2 + i/(population_size)]
+                    car.position = [car.position[0] + i/(population_size), car.position[1] + i/(population_size)]
+            
+            self.screen.blit(font.render(f"Generation: {self.generation}", True, Color.WHITE), (10, 10))
+            self.screen.blit(font.render(f"Alive: {alive}", True, Color.WHITE), (10, 30))
+            self.screen.blit(font.render(f"Dead: {dead}", True, Color.WHITE), (10, 50))    
+                
+            # print(all_cars_dead)
+            
             pygame.display.flip()
 
 

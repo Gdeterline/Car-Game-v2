@@ -29,7 +29,7 @@ class Track():
         txtsurf4 = font.render("PRESS RETURN TO PLACE STARTING LINE", True, Color.WHITE)
         self.surface.blit(txtsurf1,(10, txtsurf1.get_height() // 2))
         self.surface.blit(txtsurf2,(10, txtsurf1.get_height() // 2 + 20))
-        self.surface.blit(txtsurf4,(self.width - txtsurf4.get_width() // 2 - 150, txtsurf4.get_height() // 2))
+        self.surface.blit(txtsurf4,(self.width - txtsurf4.get_width() // 2 - 200, txtsurf4.get_height() // 2))
 
     def user_track_drawing(self):
         if pygame.mouse.get_pressed()[0]:
