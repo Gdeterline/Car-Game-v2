@@ -2,3 +2,5 @@ __pycache__
 game
 .vscode/launch.json
 /Genetic_Algorithm_Car/assets/racetracks/Racetrack.png
+.DS_Store
+Genetic_Algorithm_Car/assets/racetracks/Racetrack.png
