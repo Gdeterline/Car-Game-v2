@@ -20,9 +20,9 @@ class Car():
 
         self.position = starting_position
         self.center = starting_position
-        self.max_velocity = 3
-        self.min_velocity = 1
-        self.velocity = 1.5
+        self.max_velocity = 4
+        self.min_velocity = 1.5
+        self.velocity = 2
         self.angle = 0
 
         self.sensors = []
@@ -68,18 +68,24 @@ class Car():
             self.alive = False # Car is dead if it hits the track boundaries """
             
     def collision(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
-        print(f"Car center: {self.center}")
+        #print(f"Car center: {self.center}")
         pixel_color = screen.get_at((int(self.center[0]), int(self.center[1])))
-        print(f"Pixel color: {pixel_color}, OUTBOUND_COLOR: {OUTBOUND_COLOR}")
-        print(f"Screen dimensions: {screen.get_width()}, {screen.get_height()}")
+        #print(f"Pixel color: {pixel_color}, OUTBOUND_COLOR: {OUTBOUND_COLOR}")
+        #print(f"Screen dimensions: {screen.get_width()}, {screen.get_height()}")
         if (self.center[0] < 0 or self.center[0] >= screen.get_width() or
             self.center[1] < 0 or self.center[1] >= screen.get_height()):
-            print("Off-screen collision")
+            #print("Off-screen collision")
             self.alive = False
         elif pixel_color == OUTBOUND_COLOR:
-            print("Color collision detected!")
+            #print("Color collision detected!")
             self.alive = False
             
+            
+    def crossed_starting_line(self, screen: pygame.surface.Surface, starting_line_color):
+        pixel_color = screen.get_at((int(self.center[0]), int(self.center[1])))
+        if pixel_color == starting_line_color and self.driven_distance > 100:   # 100 is arbitrary
+            return True
+        return False
 
     ############# Car Physics ############
     

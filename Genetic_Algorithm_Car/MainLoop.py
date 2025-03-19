@@ -152,6 +152,13 @@ class MainLoop():
                     car._sprite = pygame.transform.rotate(car.sprite, car.angle)
                     rect = car.sprite.get_rect(center=car.center)
                     self.screen.blit(car._sprite, rect)
+                    
+                    # add a if statement to check if the car has done a full lap. If so, set car.alive to False and it's NN weights is saved to a file
+                    # to check if the car has done a full lap, check if the car is at the starting position again
+                    if car.crossed_starting_line(self.screen, Color.RED) == True:
+                        car.alive = False
+                        np.save(f"./Genetic_Algorithm_Car/Pretrained_Models/pretrained_car_weights.npy", car.nn.get_weights())
+                        print(f"Car {car} has done a full lap")
             
             self.screen.blit(self.sensor_surface, (0, 0))
              
