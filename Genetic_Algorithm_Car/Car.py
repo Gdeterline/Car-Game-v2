@@ -89,7 +89,7 @@ class Car():
     
     def crossed_starting_line(self, screen: pygame.surface.Surface, starting_line_color):
         if self.started:
-            buffer = 10 # add a buffer of 2 pixels.
+            buffer = 10 # add a buffer of 4 pixels.
             for x in range(int(self.center[0]) - buffer, int(self.center[0]) + buffer):
                 for y in range(int(self.center[1]) - buffer, int(self.center[1]) + buffer):
                     pixel_color = screen.get_at((x, y))
