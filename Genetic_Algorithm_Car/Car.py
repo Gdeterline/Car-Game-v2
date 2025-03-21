@@ -5,7 +5,7 @@ import random as rd
 from Track import Track
 from NeuralNetwork import NeuralNetwork
 
-CAR_PATH = "./Genetic_Algorithm_Car/assets/cars/car.png"
+CAR_PATH = "./Genetic_Algorithm_Car/assets/cars/car1.png"
 
 class Car():
 
@@ -28,10 +28,10 @@ class Car():
         self.sensors = []
         self.sensdist = []
         self.alive = True
-
+        self.started = False
         self.driven_distance = 0
         
-        self.nn = NeuralNetwork(5, 8, 2)
+        self.nn = NeuralNetwork(5, 6, 2)
 
     ############# Collision Management + Sensors ##############
 
@@ -86,7 +86,17 @@ class Car():
         if pixel_color == starting_line_color and self.driven_distance > 100:   # 100 is arbitrary
             return True
         return False
-
+    
+    def crossed_starting_line(self, screen: pygame.surface.Surface, starting_line_color):
+        if self.started:
+            buffer = 10 # add a buffer of 2 pixels.
+            for x in range(int(self.center[0]) - buffer, int(self.center[0]) + buffer):
+                for y in range(int(self.center[1]) - buffer, int(self.center[1]) + buffer):
+                    pixel_color = screen.get_at((x, y))
+                    if pixel_color == starting_line_color:
+                        return True
+        return False
+    
     ############# Car Physics ############
     
     def decide_action(self, input): # Expecting a [[1, 1]] shape array
@@ -135,4 +145,6 @@ class Car():
         self.move(nn_output)
         self.collision(screen, OUTBOUND_COLOR)
         self.driven_distance += self.velocity
+        if self.driven_distance > 50:
+            self.started = True
         self.rect = self.sprite.get_rect(center=(self.position[0], self.position[1]))

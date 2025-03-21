@@ -40,6 +40,8 @@ class MainLoop():
             car.position = [car.position[0] + i/(population_size), car.position[1] + i/(population_size)]
         self.generation = 0
         self.genetic_algorithm = GeneticAlgorithm(population_size)
+        
+        self.weights_saved_timer = 0
 
 
     def pause_game(self):
@@ -61,6 +63,19 @@ class MainLoop():
                         self.pause = False
                         self.running = True
                         break
+                    
+    def save_car(self):
+        # Save the weights of the car's neural network
+        # We want to save the weights of the best car - the one that has driven the longest distance
+        # We can do this by sorting the cars by driven distance and saving the weights of the first car
+        sorted_cars = sorted(self.cars, key=lambda car: car.driven_distance, reverse=True)
+        best_car = sorted_cars[0]
+        np.save(f"./Genetic_Algorithm_Car/Pretrained_Models/pretrained_car_weights.npy", best_car.nn.get_weights())
+        print("Car weights saved")
+        self.weights_saved_timer = pygame.time.get_ticks()
+        pygame.display.set_caption("Car weights saved")
+
+
 
     def start(self):
         self.begin = True
@@ -105,6 +120,14 @@ class MainLoop():
                         sys.exit(0)
                     elif event.key==pygame.K_p:
                         self.pause_game()
+                    elif event.key==pygame.K_s:
+                        self.save_car()
+
+            if self.weights_saved_timer != 0:
+                if pygame.time.get_ticks() - self.weights_saved_timer > 2000:  # 2 seconds
+                    pygame.display.set_caption("Simulation")
+                    pygame.display.flip()
+                    self.weights_saved_timer = 0  # Reset timer
 
 
             self.screen.fill((0, 0, 0))
@@ -156,19 +179,26 @@ class MainLoop():
                     # add a if statement to check if the car has done a full lap. If so, set car.alive to False and it's NN weights is saved to a file
                     # to check if the car has done a full lap, check if the car is at the starting position again
                     if car.crossed_starting_line(self.screen, Color.RED) == True:
-                        car.alive = False
-                        np.save(f"./Genetic_Algorithm_Car/Pretrained_Models/pretrained_car_weights.npy", car.nn.get_weights())
+                        #np.save(f"./Genetic_Algorithm_Car/Pretrained_Models/pretrained_car_weights.npy", car.nn.get_weights())
                         print(f"Car {car} has done a full lap")
+                        car.alive = False
+                        all_cars_dead = True
+                        print(all_cars_dead)
+                        break
             
             self.screen.blit(self.sensor_surface, (0, 0))
              
              
             dead, alive = 0, 0
-            for car in self.cars:
-                if car.alive:
-                    alive += 1
-                else:
-                    dead += 1
+            if all_cars_dead == False:
+                for car in self.cars:
+                    if car.alive:
+                        alive += 1
+                    else:
+                        dead += 1
+            else:
+                dead = population_size
+                alive = 0
             
             if all_cars_dead == True:
                 #print("All cars dead")
