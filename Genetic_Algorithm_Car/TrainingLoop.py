@@ -13,7 +13,7 @@ pygame.init()
 font = pygame.font.SysFont("Calibri", 18)
 population_size = 30    # Need to check sensor issue: when cars are in the exact same position, sensors seem not to overlap
 
-class MainLoop():
+class TrainingLoop():
 
     def __init__(self):
         self.AIMainLoop = RaceTrackLoop()
@@ -97,9 +97,9 @@ class MainLoop():
                         pygame.display.set_caption("Simulation")
                         break
 
-    def MainLoop(self):
+    def TrainingLoop(self):
         """
-        MainLoop function is in charge of the Self Driving Car simulation
+        TrainingLoop function is in charge of the Self Driving Car simulation
         """
         running = False
 
@@ -221,5 +221,5 @@ class MainLoop():
 
 
 
-loop = MainLoop()
-loop.MainLoop()
+loop = TrainingLoop()
+loop.TrainingLoop()
