@@ -126,7 +126,7 @@ class TrainedCarSimulationLoop():
                     self.lap_flag = True
                     
             else:
-                pygame.display.set_caption("Something went wrong. The car collided with the boundaries, so the training was not optimal")
+                pygame.display.set_caption("The car collided with the boundaries, so the training was not optimal")
                 
             self.screen.blit(font.render(f"Laps completed: {self.laps}", True, Color.WHITE), (10, 10))    # laps - 3 because buffer of 3
             self.screen.blit(self.sensor_surface, (0, 0))             

@@ -11,7 +11,7 @@ from GeneticAlgorithm import GeneticAlgorithm
 pygame.init()
 
 font = pygame.font.SysFont("Calibri", 18)
-population_size = 30    # Need to check sensor issue: when cars are in the exact same position, sensors seem not to overlap
+population_size = 35
 
 class TrainingLoop():
 

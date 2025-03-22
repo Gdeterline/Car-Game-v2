@@ -4,7 +4,7 @@ from NeuralNetwork import NeuralNetwork
 from Car import Car
 
 class GeneticAlgorithm():
-    def __init__(self, population_size, mutation_rate=0.3):
+    def __init__(self, population_size, mutation_rate=0.45):
         self.population_size = population_size
         self.mutation_rate = mutation_rate
 
@@ -30,7 +30,7 @@ class GeneticAlgorithm():
         # Perform mutation (randomly alter weights)
         for i in range(len(weights)):
             if rd.random() < self.mutation_rate:
-                weights[i] += np.random.normal(0, 0.1)
+                weights[i] += np.random.normal(0, 0.2)
         return weights
 
     def create_next_generation(self, cars, starting_position):
