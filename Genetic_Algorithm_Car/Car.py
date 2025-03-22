@@ -30,7 +30,7 @@ class Car():
         self.alive = True
         self.started = False
         self.driven_distance = 0
-        
+    
         self.nn = NeuralNetwork(5, 6, 2)
 
     ############# Collision Management + Sensors ##############
@@ -58,14 +58,6 @@ class Car():
     def clear_sensors(self):
         self.sensors.clear()
         self.sensdist.clear()
-        
-    """ 
-    def collision(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
-        if (self.center[0] < 0 or self.center[0] >= screen.get_width() or
-            self.center[1] < 0 or self.center[1] >= screen.get_height()):
-            self.alive = False  # Car is dead if it's off-screen
-        elif screen.get_at((int(self.center[0]), int(self.center[1]))) == OUTBOUND_COLOR:
-            self.alive = False # Car is dead if it hits the track boundaries """
             
     def collision(self, screen: pygame.surface.Surface, OUTBOUND_COLOR):
         #print(f"Car center: {self.center}")

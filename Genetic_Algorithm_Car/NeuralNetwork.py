@@ -27,3 +27,27 @@ class NeuralNetwork():
         self.bias1 = weights[split1:split2].reshape(self.bias1.shape)
         self.weights2 = weights[split2:split3].reshape(self.weights2.shape)
         self.bias2 = weights[split3:].reshape(self.bias2.shape)
+        
+    def set_pretrained_weights(self, weights):
+        deviation = 0.1  # Standard deviation for normal distribution
+
+        split1 = self.weights1.size
+        split2 = split1 + self.bias1.size
+        split3 = split2 + self.weights2.size
+        
+        # Add random deviations to weights1
+        noise1 = np.random.normal(0, deviation, self.weights1.shape)
+        self.weights1 = weights[:split1].reshape(self.weights1.shape) + noise1
+
+        # Add random deviations to bias1
+        noise_bias1 = np.random.normal(0, deviation, self.bias1.shape)
+        self.bias1 = weights[split1:split2].reshape(self.bias1.shape) + noise_bias1
+
+        # Add random deviations to weights2
+        noise2 = np.random.normal(0, deviation, self.weights2.shape)
+        self.weights2 = weights[split2:split3].reshape(self.weights2.shape) + noise2
+
+        # Add random deviations to bias2
+        noise_bias2 = np.random.normal(0, deviation, self.bias2.shape)
+        self.bias2 = weights[split3:].reshape(self.bias2.shape) + noise_bias2
+        

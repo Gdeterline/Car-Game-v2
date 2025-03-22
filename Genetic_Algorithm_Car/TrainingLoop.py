@@ -26,18 +26,14 @@ class TrainingLoop():
         self.begin = True
         self.pause = False
         self.running = False
-        """
-        self.car1 = Car(self.startpos)
-        self.car2 = Car([self.startpos[0] + 30, self.startpos[1] + 10])
-        self.car1.center = [self.car1.position[0] + self.car1.CAR_WIDTH/2, self.car1.position[1] + self.car1.CAR_HEIGHT/2]
-        self.car2.center = [self.car2.position[0] + self.car2.CAR_WIDTH/2 + 30, self.car2.position[1] + self.car2.CAR_HEIGHT/2 + 10]
-        """
+
         self.cars = [Car(self.AIMainLoop.get_starting_position()) for _ in range(population_size)]
         i = 0
         for car in self.cars:
             i += 1
             car.center = [car.position[0] + car.CAR_WIDTH/2 + i/(population_size), car.position[1] + car.CAR_HEIGHT/2+ i/(population_size)]
             car.position = [car.position[0] + i/(population_size), car.position[1] + i/(population_size)]
+
         self.generation = 0
         self.genetic_algorithm = GeneticAlgorithm(population_size)
         
@@ -70,17 +66,15 @@ class TrainingLoop():
         # We can do this by sorting the cars by driven distance and saving the weights of the first car
         sorted_cars = sorted(self.cars, key=lambda car: car.driven_distance, reverse=True)
         best_car = sorted_cars[0]
-        np.save(f"./Genetic_Algorithm_Car/Pretrained_Models/pretrained_car_weights.npy", best_car.nn.get_weights())
+        np.save(f"./Genetic_Algorithm_Car/buffer/pretrained_car_weights.npy", best_car.nn.get_weights())
         print("Car weights saved")
         self.weights_saved_timer = pygame.time.get_ticks()
         pygame.display.set_caption("Car weights saved")
 
-
-
     def start(self):
         self.begin = True
         while self.begin:
-            pygame.display.set_caption("Press enter to begin simulation")
+            pygame.display.set_caption("Press 'a' to load pretrained weights. Press 'z' no to load pretrained weights. Press enter to begin simulation.")    
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     self.begin = False
@@ -91,6 +85,12 @@ class TrainingLoop():
                         self.begin = False
                         self.running = False
                         sys.exit(0)
+                    elif event.key == pygame.K_a:
+                        for car in self.cars:
+                            car.nn.set_pretrained_weights(np.load("./Genetic_Algorithm_Car/buffer/pretrained_car_weights.npy"))
+                        print("Pretrained weights loaded")
+                    elif event.key == pygame.K_z:
+                        print("Pretrained weights not loaded")
                     elif event.key == pygame.K_RETURN:
                         self.running = True
                         self.begin = False
@@ -134,30 +134,6 @@ class TrainingLoop():
             self.sensor_surface.fill((0, 0, 0, 0))  # Clear sensor surface
             self.screen.blit((self.selected_circuit), (0, 0))
 
-            """
-            print(self.car1.position, self.car1.center)
-            if self.car1.alive:
-                self.car1.clear_sensors()
-                for degree in range(-90, 120, 45):
-                    self.car1.check_sensor(degree, self.screen, self.background_color)
-                self.car1.draw_sensor(self.screen)
-                self.car1.update(self.screen, self.background_color)
-                self.car1._sprite = pygame.transform.rotate(self.car1.sprite, self.car1.angle)
-                rect1 = self.car1.sprite.get_rect(center=self.car1.center)
-                self.screen.blit(self.car1._sprite, rect1)
-            
-            print(self.car2.position, self.car2.center)  
-            if self.car2.alive:
-                self.car2.clear_sensors()
-                for degree in range(-90, 120, 45):
-                    self.car2.check_sensor(degree, self.screen, self.background_color)
-                self.car2.draw_sensor(self.screen)
-                self.car2.update(self.screen, self.background_color)
-                self.car2._sprite = pygame.transform.rotate(self.car2.sprite, self.car2.angle)
-                rect2 = self.car2.sprite.get_rect(center=self.car2.center)
-                self.screen.blit(self.car2._sprite, rect2)
-            """
-            
             all_cars_dead = True
             
             for car in self.cars:

@@ -4,7 +4,7 @@ from NeuralNetwork import NeuralNetwork
 from Car import Car
 
 class GeneticAlgorithm():
-    def __init__(self, population_size, mutation_rate=0.45):
+    def __init__(self, population_size, mutation_rate=0.7):
         self.population_size = population_size
         self.mutation_rate = mutation_rate
 
