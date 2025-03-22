@@ -29,7 +29,7 @@ class TrainedCarSimulationLoop():
         self.running = False
         
         self.trained_car = Car(self.AIMainLoop.get_starting_position())
-        self.trained_car.nn.set_weights(np.load("./Genetic_Algorithm_Car/Pretrained_Models/pretrained_car_weights.npy"))
+        self.trained_car.nn.set_weights(np.load("./Genetic_Algorithm_Car/Pretrained_Models/pretrained_car_weights_v2.npy"))
         self.trained_car.center = [self.trained_car.position[0] + self.trained_car.CAR_WIDTH/2, self.trained_car.position[1] + self.trained_car.CAR_HEIGHT/2]
         
         self.laps = 0
