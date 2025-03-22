@@ -7,6 +7,7 @@ This file contains ideas for improving the training of the car using genetic alg
 <ins>Must have:</ins>
 
 1. **Need to implement a functionnality to load a pretrained model for the genetic algorithm**: Need to implement a functionnality to load a pretrained model for the genetic algorithm. That way, the genetic algorithm can start from a pretrained model and improve it further.
+**DONE:** The functionnality to load a pretrained model for the genetic algorithm has been implemented. The genetic algorithm can now start from a pretrained model and improve it further. The pretrained model is loaded and some noise is added to the weights of the neural network through a normal distribution to diversify the population neural networks.
 
 2. **Need to check how to tune the hyperparameters**: Need to check how to tune the hyperparameters of the genetic algorithm to improve the performance of the car. The hyperparameters include the population size, the mutation rate, the crossover rate, and the size of the hidden layer of the neural network. The hyperparameters could also include the sensor range, the sensor angle, and the sensor noise.
 
