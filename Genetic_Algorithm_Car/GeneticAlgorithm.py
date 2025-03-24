@@ -4,9 +4,10 @@ from NeuralNetwork import NeuralNetwork
 from Car import Car
 
 class GeneticAlgorithm():
-    def __init__(self, population_size, mutation_rate=0.7):
+    def __init__(self, population_size, mutation_rate=0.7, crossover_rate=0.5):
         self.population_size = population_size
         self.mutation_rate = mutation_rate
+        self.crossover_rate = crossover_rate
         self.avg_fitness = []  # Store average fitness scores
         self.stagnation_counter = 0  # Count generations with steady fitness
         self.delta_fitness_buffer = 10  # Adjust as needed
@@ -36,7 +37,7 @@ class GeneticAlgorithm():
         parent1_weights = parent1.nn.get_weights()
         parent2_weights = parent2.nn.get_weights()
         for i in range(len(parent1_weights)):
-            if rd.random() < 0.5:
+            if rd.random() < self.crossover_rate:
                 child_weights.append(parent1_weights[i])
             else:
                 child_weights.append(parent2_weights[i])
