@@ -9,6 +9,7 @@ class GeneticAlgorithm():
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
         self.avg_fitness = []  # Store average fitness scores
+        self.fitness_history_size = 5
         self.stagnation_counter = 0  # Count generations with steady fitness
         self.delta_fitness_buffer = 10  # Adjust as needed
         self.fitness_buffer = 5 # Adjust as needed

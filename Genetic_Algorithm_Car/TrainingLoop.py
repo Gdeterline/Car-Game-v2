@@ -177,6 +177,15 @@ class TrainingLoop():
                 alive = 0
             
             if all_cars_dead == True:
+                
+                self.genetic_algorithm.avg_fitness.append(self.genetic_algorithm.average_fitness(self.cars))
+                # print(self.genetic_algorithm.avg_fitness)
+                
+                if len(self.genetic_algorithm.avg_fitness) > self.genetic_algorithm.fitness_history_size:
+                    self.genetic_algorithm.avg_fitness.pop(0)
+                
+                print(f"Generation {self.generation} average fitness score: {self.genetic_algorithm.avg_fitness[-1]}")
+                
                 #print("All cars dead")
                 self.generation += 1
                 #print(f"Generation: {self.generation}")
