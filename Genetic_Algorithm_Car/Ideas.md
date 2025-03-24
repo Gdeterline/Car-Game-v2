@@ -16,6 +16,16 @@ This file contains ideas for improving the training of the car using genetic alg
 4. **Implement an adaptive mutation rate**: Implement an adaptive mutation rate that changes based on the performance of the car. The mutation rate should increase if the car is not performing well and decrease if the car is performing well. 
 Also, the mutation rate should be high at the beginning of the training and decrease over time. If the fitness of the population is not improving, the mutation rate should increase.
 
+The idea here would be to adjust both the mutation rate and the crossover rate depending on the situation:
+- if the average fitness score of the cars over one generation is pretty low (or stagnates) and the maximum fitness score of the cars is close to the average score, we need to increase the mutation rate, and the crossover rate stays the same
+- if the average fitness score of the cars over one generation is pretty low (or stagnates) and the maximum fitness score of the cars is quite high compared to the average score, we need to increase the crossover rate, and slightly increase the mutation rate
+- if the average fitness score keeps on increasing, and is good, we need to lower the mutation rate
+
+
+
+
+
+
 <ins>Nice to have:</ins>
 
 5. **Select the best individuals for the next generation**: Select the best individuals for the next generation based on their fitness. The best individuals should be selected based on their fitness, and the worst individuals should be removed.

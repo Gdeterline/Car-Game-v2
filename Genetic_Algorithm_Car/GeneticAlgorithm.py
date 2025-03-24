@@ -7,12 +7,28 @@ class GeneticAlgorithm():
     def __init__(self, population_size, mutation_rate=0.7):
         self.population_size = population_size
         self.mutation_rate = mutation_rate
+        self.avg_fitness = []  # Store average fitness scores
+        self.stagnation_counter = 0  # Count generations with steady fitness
+        self.delta_fitness_buffer = 10  # Adjust as needed
+        self.fitness_buffer = 5 # Adjust as needed
+        self.delta_max_fitness = 100    # Need to assess what driven distance represents a significant improvement - let's start with 100
 
     def select_parents(self, cars):
         # Select parents based on driven distance (we keep the best 1/4 of the population)
         sorted_cars = sorted(cars, key=lambda car: car.driven_distance, reverse=True)
         parents = sorted_cars[:self.population_size // 4]
         return parents
+    
+    def average_fitness(self, cars):
+        """Calculates the average fitness of the given cars."""
+        return sum([car.driven_distance for car in cars]) / len(cars)
+    
+    def select_max_fitness_cars(self, cars):
+        sorted_cars = sorted(cars, key=lambda car: car.driven_distance, reverse=True)
+        average_fitness = average_fitness(cars)
+        ###### Need to work on selecting the highest fitness score cars (with a driven distance > 100 compared to the next one)
+        ###### Need to define if we take a given number of cars, or if it is adaptive
+        pass
 
     def crossover(self, parent1, parent2):
         # Perform crossover (combine weights from parents to create child weights)
